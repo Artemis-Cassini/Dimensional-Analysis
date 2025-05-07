@@ -1,3 +1,63 @@
+# Speed conversions: miles/hour ↔ feet/second
+def mph_to_fps(mph):
+    fps = mph * 5280 / 3600
+    return [
+        f"Step 1: Given {mph} miles/hour",
+        f"Step 2: Convert miles to feet: × 5280 ft/mile",
+        f"Step 3: Convert hours to seconds: ÷ 3600 s/hour",
+        f"{mph} × 5280 ÷ 3600 = {fps:.4f} ft/s",
+        f"Final Answer: {fps:.4f} ft/s"
+    ]
+
+def fps_to_mph(fps):
+    mph = fps * 3600 / 5280
+    return [
+        f"Step 1: Given {fps} feet/second",
+        f"Step 2: Convert seconds to hours: × 3600 s/hour",
+        f"Step 3: Convert feet to miles: ÷ 5280 ft/mile",
+        f"{fps} × 3600 ÷ 5280 = {mph:.4f} mi/h",
+        f"Final Answer: {mph:.4f} mi/h"
+    ]
+
+# Weight conversions: pounds & ounces ↔ milligrams
+def lb_oz_to_mg(lb, oz):
+    mg = lb * 453592.37 + oz * 28349.523
+    return [
+        f"Step 1: Convert {lb} lb to mg: {lb} × 453592.37 = {lb*453592.37:.0f} mg",
+        f"Step 2: Convert {oz} oz to mg: {oz} × 28349.523 = {oz*28349.523:.0f} mg",
+        f"Step 3: Sum = {lb*453592.37 + oz*28349.523:.0f} mg",
+        f"Final Answer: {mg:.0f} mg"
+    ]
+
+def mg_to_lb_oz(mg):
+    lb = int(mg // 453592.37)
+    rem_mg = mg - lb * 453592.37
+    oz = rem_mg / 28349.523
+    return [
+        f"Step 1: Given {mg:.0f} mg",
+        f"Step 2: Pounds = {mg:.0f} ÷ 453592.37 = {lb} lb",
+        f"Step 3: Remainder = {rem_mg:.0f} mg → {oz:.2f} oz",
+        f"Final Answer: {lb} lb and {oz:.2f} oz"
+    ]
+
+# Distance conversions: miles ↔ centimeters
+def miles_to_cm(miles):
+    cm = miles * 160934.4
+    return [
+        f"Step 1: Given {miles} miles",
+        f"Step 2: Multiply by 160934.4 cm/mile",
+        f"{miles} × 160934.4 = {cm:.0f} cm",
+        f"Final Answer: {cm:.0f} cm"
+    ]
+
+def cm_to_miles(cm):
+    miles = cm / 160934.4
+    return [
+        f"Step 1: Given {cm:.0f} cm",
+        f"Step 2: Divide by 160934.4 cm/mile",
+        f"{cm} ÷ 160934.4 = {miles:.6f} miles",
+        f"Final Answer: {miles:.6f} miles"
+    ]
 # Polyprotic acid titration concentration calculation
 def titration_concentration(V_titrant_L, M_titrant, titrant_comp, V_analyte_L, analyte_comp):
     """
@@ -505,6 +565,312 @@ def g_to_kg(grams):
     ]
     return steps
 
+# Distance unit conversions
+def miles_to_kilometers(miles):
+    km = miles * 1.60934
+    return [
+        f"Step 1: Given {miles} miles",
+        f"Step 2: Multiply by 1.60934 km/mile",
+        f"{miles} miles × 1.60934 = {km:.4f} km",
+        f"Final Answer: {km:.4f} km"
+    ]
+
+def kilometers_to_miles(km):
+    miles = km / 1.60934
+    return [
+        f"Step 1: Given {km} kilometers",
+        f"Step 2: Divide by 1.60934 km/mile",
+        f"{km} km ÷ 1.60934 = {miles:.4f} miles",
+        f"Final Answer: {miles:.4f} miles"
+    ]
+
+def miles_to_feet(miles):
+    feet = miles * 5280
+    return [
+        f"Step 1: Given {miles} miles",
+        f"Step 2: Multiply by 5280 ft/mile",
+        f"{miles} miles × 5280 = {feet:.2f} ft",
+        f"Final Answer: {feet:.2f} ft"
+    ]
+
+def feet_to_miles(feet):
+    miles = feet / 5280
+    return [
+        f"Step 1: Given {feet} feet",
+        f"Step 2: Divide by 5280 ft/mile",
+        f"{feet} ft ÷ 5280 = {miles:.4f} miles",
+        f"Final Answer: {miles:.4f} miles"
+    ]
+
+# Volume unit conversions: gallons ↔ cubic meters
+def gallons_to_cubic_meters(gallons):
+    m3 = gallons * 0.00378541
+    return [
+        f"Step 1: Given {gallons} gallons",
+        "Step 2: Multiply by 0.00378541 m³/gallon",
+        f"{gallons} gal × 0.00378541 = {m3:.6f} m³",
+        f"Final Answer: {m3:.6f} m³"
+    ]
+
+def cubic_meters_to_gallons(m3):
+    gal = m3 / 0.00378541
+    return [
+        f"Step 1: Given {m3} cubic meters",
+        "Step 2: Divide by 0.00378541 m³/gallon",
+        f"{m3} m³ ÷ 0.00378541 = {gal:.4f} gal",
+        f"Final Answer: {gal:.4f} gal"
+    ]
+
+# Time unit conversions: seconds↔minutes, minutes↔hours, hours↔days
+def seconds_to_minutes(sec):
+    minutes = sec / 60
+    return [
+        f"Step 1: Given {sec} seconds",
+        "Step 2: Divide by 60 to convert seconds → minutes",
+        f"{sec} s ÷ 60 = {minutes:.4f} min",
+        f"Final Answer: {minutes:.4f} min"
+    ]
+
+def minutes_to_seconds(mins):
+    sec = mins * 60
+    return [
+        f"Step 1: Given {mins} minutes",
+        "Step 2: Multiply by 60 to convert minutes → seconds",
+        f"{mins} min × 60 = {sec:.2f} s",
+        f"Final Answer: {sec:.2f} s"
+    ]
+
+def minutes_to_hours(mins):
+    hrs = mins / 60
+    return [
+        f"Step 1: Given {mins} minutes",
+        "Step 2: Divide by 60 to convert minutes → hours",
+        f"{mins} min ÷ 60 = {hrs:.4f} hr",
+        f"Final Answer: {hrs:.4f} hr"
+    ]
+
+def hours_to_minutes(hrs):
+    mins = hrs * 60
+    return [
+        f"Step 1: Given {hrs} hours",
+        "Step 2: Multiply by 60 to convert hours → minutes",
+        f"{hrs} hr × 60 = {mins:.2f} min",
+        f"Final Answer: {mins:.2f} min"
+    ]
+
+def hours_to_days(hrs):
+    days = hrs / 24
+    return [
+        f"Step 1: Given {hrs} hours",
+        "Step 2: Divide by 24 to convert hours → days",
+        f"{hrs} hr ÷ 24 = {days:.4f} day",
+        f"Final Answer: {days:.4f} day"
+    ]
+
+def days_to_hours(days):
+    hrs = days * 24
+    return [
+        f"Step 1: Given {days} days",
+        "Step 2: Multiply by 24 to convert days → hours",
+        f"{days} day × 24 = {hrs:.2f} hr",
+        f"Final Answer: {hrs:.2f} hr"
+    ]
+
+# Rate conversion: minutes per day → hours per day
+def min_per_day_to_hr_per_day(min_per_day):
+    hr_per_day = min_per_day / 60
+    steps = [
+        f"Step 1: Given {min_per_day} minutes/day",
+        "Step 2: Divide by 60 to convert minutes to hours",
+        f"{min_per_day} ÷ 60 = {hr_per_day:.4f} hours/day",
+        f"Final Answer: {hr_per_day:.4f} hours/day"
+    ]
+    return steps
+
+# Time unit conversions: seconds ↔ years
+SECONDS_PER_YEAR = 365 * 24 * 3600
+
+def seconds_to_years(sec):
+    years = sec / SECONDS_PER_YEAR
+    steps = [
+        f"Step 1: Given {sec} seconds",
+        f"Step 2: Divide by {SECONDS_PER_YEAR} to convert seconds → years",
+        f"{sec} s ÷ {SECONDS_PER_YEAR} = {years:.6f} years",
+        f"Final Answer: {years:.6f} years"
+    ]
+    return steps
+
+def years_to_seconds(years):
+    sec = years * SECONDS_PER_YEAR
+    steps = [
+        f"Step 1: Given {years} years",
+        f"Step 2: Multiply by {SECONDS_PER_YEAR} to convert years → seconds",
+        f"{years} years × {SECONDS_PER_YEAR} = {sec:.2f} seconds",
+        f"Final Answer: {sec:.2f} seconds"
+    ]
+    return steps
+
+# Distance from time & speed: seconds at m/s to miles
+def seconds_speed_to_miles(seconds, speed_m_s):
+    meters = speed_m_s * seconds
+    km = meters / 1000
+    miles = km / 1.60934
+    steps = [
+        f"Step 1: Given {seconds} s at {speed_m_s} m/s",
+        f"Step 2: Distance = speed × time = {speed_m_s} m/s × {seconds} s = {meters:.2f} m",
+        f"Step 3: Convert to kilometers: {meters:.2f} m ÷ 1000 = {km:.4f} km",
+        f"Step 4: Convert to miles: {km:.4f} km ÷ 1.60934 = {miles:.4f} miles",
+        f"Final Answer: {miles:.4f} miles"
+    ]
+    return steps
+
+# Distance-speed to time: miles at m/s to seconds
+def miles_speed_to_seconds(distance_miles, speed_m_s):
+    """
+    Convert distance in miles at a given speed (m/s) to time in seconds.
+    """
+    # 1) Convert miles to meters
+    meters = distance_miles * 1609.34
+    # 2) Time = distance ÷ speed
+    sec = meters / speed_m_s
+    steps = [
+        f"Step 1: Given {distance_miles} miles at {speed_m_s} m/s",
+        f"Step 2: Convert miles to meters: {distance_miles} × 1609.34 = {meters:.2f} m",
+        f"Step 3: Time = distance ÷ speed = {meters:.2f} m ÷ {speed_m_s:.2e} m/s = {sec:.2e} s",
+        f"Final Answer: {sec:.2e} s"
+    ]
+    return steps
+
+# Unit conversions: feet ↔ kilometers
+def feet_to_kilometers(feet):
+    km = feet * 0.0003048
+    return [
+        f"Step 1: Given {feet} feet",
+        f"Step 2: Multiply by 0.0003048 km/ft",
+        f"{feet} ft × 0.0003048 = {km:.4f} km",
+        f"Final Answer: {km:.4f} km"
+    ]
+
+def kilometers_to_feet(km):
+    feet = km / 0.0003048
+    return [
+        f"Step 1: Given {km} kilometers",
+        f"Step 2: Divide by 0.0003048 km/ft",
+        f"{km} km ÷ 0.0003048 = {feet:.2f} ft",
+        f"Final Answer: {feet:.2f} ft"
+    ]
+
+# Time conversions: minutes ↔ days
+def minutes_to_days(minutes):
+    days = minutes / 1440
+    return [
+        f"Step 1: Given {minutes} minutes",
+        "Step 2: Divide by 1440 to convert minutes → days",
+        f"{minutes} min ÷ 1440 = {days:.4f} days",
+        f"Final Answer: {days:.4f} days"
+    ]
+
+def days_to_minutes(days):
+    minutes = days * 1440
+    return [
+        f"Step 1: Given {days} days",
+        "Step 2: Multiply by 1440 to convert days → minutes",
+        f"{days} days × 1440 = {minutes:.2f} minutes",
+        f"Final Answer: {minutes:.2f} minutes"
+    ]
+
+# Time conversions: weeks ↔ years
+def weeks_to_years(weeks):
+    years = weeks * 7 / 365
+    return [
+        f"Step 1: Given {weeks} weeks",
+        "Step 2: Convert weeks to days: × 7",
+        "Step 3: Divide by 365 to convert days → years",
+        f"{weeks} × 7 ÷ 365 = {years:.4f} years",
+        f"Final Answer: {years:.4f} years"
+    ]
+
+def years_to_weeks(years):
+    weeks = years * 365 / 7
+    return [
+        f"Step 1: Given {years} years",
+        "Step 2: Multiply by 365 to convert years → days",
+        "Step 3: Divide by 7 to convert days → weeks",
+        f"{years} × 365 ÷ 7 = {weeks:.2f} weeks",
+        f"Final Answer: {weeks:.2f} weeks"
+    ]
+
+# Volume conversions: gallons → liters
+def gallons_to_liters(gallons):
+    liters = gallons * 3.78541
+    return [
+        f"Step 1: Given {gallons} gallons",
+        "Step 2: Multiply by 3.78541 L/gallon",
+        f"{gallons} gal × 3.78541 = {liters:.4f} L",
+        f"Final Answer: {liters:.4f} L"
+    ]
+
+# Drops conversion factor
+DROPS_PER_ML = 20
+
+def ml_to_drops(ml):
+    drops = ml * DROPS_PER_ML
+    return [
+        f"Step 1: Given {ml} mL",
+        f"Step 2: 1 mL = {DROPS_PER_ML} drops",
+        f"{ml} mL × {DROPS_PER_ML} = {drops:.0f} drops",
+        f"Final Answer: {drops:.0f} drops"
+    ]
+
+def gallons_to_gallons_per_second(gallons_per_day):
+    # Convert flow rate from gallons/day to gallons/second
+    gal_per_s = gallons_per_day / 86400
+    return [
+        f"Step 1: Given {gallons_per_day} gallons/day",
+        f"Step 2: Divide by number of seconds in a day (86400) to convert to gal/s",
+        f"{gallons_per_day} gal/day ÷ 86400 s/day = {gal_per_s:.6f} gal/s",
+        f"Final Answer: {gal_per_s:.6f} gal/s"
+    ]
+
+
+def cubic_meters_to_drops(m3):
+    ml = m3 * 1e6
+    drops = ml * DROPS_PER_ML
+    return [
+        f"Step 1: Given {m3} m³",
+        f"Step 2: Convert to mL: {m3} × 10^6 = {ml:.0f} mL",
+        f"Step 3: 1 mL = {DROPS_PER_ML} drops, so {ml:.0f} mL × {DROPS_PER_ML} = {drops:.0f} drops",
+        f"Final Answer: {drops:.0f} drops"
+    ]
+
+# Drops → Cubic meters helper
+def drops_to_cubic_meters(drops):
+    """
+    Convert drops to cubic meters.
+    """
+    # Convert drops to mL
+    ml = drops / DROPS_PER_ML
+    # Convert mL to cubic meters
+    m3 = ml / 1e6
+    steps = [
+        f"Step 1: Given {drops:.0f} drops",
+        f"Step 2: Convert drops to mL: {drops:.0f} drops ÷ {DROPS_PER_ML} drops/mL = {ml:.4f} mL",
+        f"Step 3: Convert mL to m³: {ml:.4f} mL ÷ 1e6 = {m3:.10f} m³",
+        f"Final Answer: {m3:.10f} m³"
+    ]
+    return steps
+
+# Supply duration calculation (total supply and daily rate)
+def days_supply_from_rate(total_gallons, daily_rate_gpd):
+    days = total_gallons / daily_rate_gpd
+    steps = [
+        f"Step 1: Total supply = {total_gallons} gallons",
+        f"Step 2: Daily usage rate = {daily_rate_gpd} gallons/day",
+        f"Step 3: Days supply = {total_gallons} ÷ {daily_rate_gpd} = {days:.2f} days",
+        f"Final Answer: {days:.2f} days"
+    ]
+    return steps
+
 def dimensional_analysis(query):
     import re
     query = query.strip()
@@ -527,6 +893,301 @@ def dimensional_analysis(query):
     if match_g_to_kg:
         grams = float(match_g_to_kg.group(1))
         return '\n'.join(g_to_kg(grams))
+
+    # Distance conversions
+    match_mi_to_km = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+to\s+kilometers?',
+        query, re.IGNORECASE
+    )
+    if match_mi_to_km:
+        mi = float(match_mi_to_km.group(1))
+        return '\n'.join(miles_to_kilometers(mi))
+
+    match_km_to_mi = re.match(
+        r'convert\s+([\deE.+-]+)\s*kilometers?\s+to\s+miles?',
+        query, re.IGNORECASE
+    )
+    if match_km_to_mi:
+        km = float(match_km_to_mi.group(1))
+        return '\n'.join(kilometers_to_miles(km))
+
+    match_mi_to_ft = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+to\s+feet?',
+        query, re.IGNORECASE
+    )
+    if match_mi_to_ft:
+        mi = float(match_mi_to_ft.group(1))
+        return '\n'.join(miles_to_feet(mi))
+
+    match_ft_to_mi = re.match(
+        r'convert\s+([\deE.+-]+)\s*feet?\s+to\s+miles?',
+        query, re.IGNORECASE
+    )
+    if match_ft_to_mi:
+        ft = float(match_ft_to_mi.group(1))
+        return '\n'.join(feet_to_miles(ft))
+
+    # Volume conversions: gallons ↔ cubic meters
+    match_gal_to_m3 = re.match(
+        r'convert\s+([\deE.+-]+)\s*gallons?\s+to\s+cubic\s+meters?',
+        query, re.IGNORECASE
+    )
+    if match_gal_to_m3:
+        gal = float(match_gal_to_m3.group(1))
+        return '\n'.join(gallons_to_cubic_meters(gal))
+
+    match_m3_to_gal = re.match(
+        r'convert\s+([\deE.+-]+)\s*cubic\s+meters?\s+to\s+gallons?',
+        query, re.IGNORECASE
+    )
+    if match_m3_to_gal:
+        m3 = float(match_m3_to_gal.group(1))
+        return '\n'.join(cubic_meters_to_gallons(m3))
+
+    # Additional liquid/unit conversions
+    match_gal_to_Lit = re.match(
+        r'convert\s+([\deE.+-]+)\s*gallons?\s+to\s+liters?',
+        query, re.IGNORECASE
+    )
+    if match_gal_to_Lit:
+        gal = float(match_gal_to_Lit.group(1))
+        return '\n'.join(gallons_to_liters(gal))
+
+    match_ml_to_drops = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:mL|ml|milliliters?)\s+to\s+drops?',
+        query, re.IGNORECASE
+    )
+    if match_ml_to_drops:
+        ml = float(match_ml_to_drops.group(1))
+        return '\n'.join(ml_to_drops(ml))
+
+    match_galpd_to_galps = re.match(
+        r'convert\s+([\deE.+-]+)\s*gallons?/day\s+to\s+gallons?/second',
+        query, re.IGNORECASE
+    )
+    if match_galpd_to_galps:
+        galpd = float(match_galpd_to_galps.group(1))
+        return '\n'.join(gallons_to_gallons_per_second(galpd))
+
+
+    # Handle drops → cubic meters
+    match_drops_to_m3 = re.match(
+        r'convert\s+([\deE.+-]+)\s*drops?\s+to\s+cubic\s+meters?',
+        query, re.IGNORECASE
+    )
+    if match_drops_to_m3:
+        drops = float(match_drops_to_m3.group(1))
+        return '\n'.join(drops_to_cubic_meters(drops))
+
+    match_m3_to_drops = re.match(
+        r'convert\s+([\deE.+-]+)\s*cubic\s+meters?\s+to\s+drops?',
+        query, re.IGNORECASE
+    )
+    if match_m3_to_drops:
+        m3 = float(match_m3_to_drops.group(1))
+        return '\n'.join(cubic_meters_to_drops(m3))
+
+    # Time conversions
+    match_s_to_min = re.match(
+        r'convert\s+([\deE.+-]+)\s*seconds?\s+to\s+minutes?',
+        query, re.IGNORECASE
+    )
+    if match_s_to_min:
+        sec = float(match_s_to_min.group(1))
+        return '\n'.join(seconds_to_minutes(sec))
+
+    match_min_to_s = re.match(
+        r'convert\s+([\deE.+-]+)\s*minutes?\s+to\s+seconds?',
+        query, re.IGNORECASE
+    )
+    if match_min_to_s:
+        mins = float(match_min_to_s.group(1))
+        return '\n'.join(minutes_to_seconds(mins))
+
+    match_min_to_hr = re.match(
+        r'convert\s+([\deE.+-]+)\s*minutes?\s+to\s+hours?',
+        query, re.IGNORECASE
+    )
+    if match_min_to_hr:
+        mins = float(match_min_to_hr.group(1))
+        return '\n'.join(minutes_to_hours(mins))
+
+    match_hr_to_min = re.match(
+        r'convert\s+([\deE.+-]+)\s*hours?\s+to\s+minutes?',
+        query, re.IGNORECASE
+    )
+    if match_hr_to_min:
+        hrs = float(match_hr_to_min.group(1))
+        return '\n'.join(hours_to_minutes(hrs))
+
+    match_hr_to_day = re.match(
+        r'convert\s+([\deE.+-]+)\s*hours?\s+to\s+days?',
+        query, re.IGNORECASE
+    )
+    if match_hr_to_day:
+        hrs = float(match_hr_to_day.group(1))
+        return '\n'.join(hours_to_days(hrs))
+
+    match_day_to_hr = re.match(
+        r'convert\s+([\deE.+-]+)\s*days?\s+to\s+hours?',
+        query, re.IGNORECASE
+    )
+    if match_day_to_hr:
+        days = float(match_day_to_hr.group(1))
+        return '\n'.join(days_to_hours(days))
+
+    # Rate conversion: minutes/day → hours/day
+    match_minpd_to_hrpd = re.match(
+        r'convert\s+([\deE.+-]+)\s*minutes?/day\s+to\s*hours?/day',
+        query, re.IGNORECASE
+    )
+    if match_minpd_to_hrpd:
+        rate = float(match_minpd_to_hrpd.group(1))
+        return '\n'.join(min_per_day_to_hr_per_day(rate))
+
+    # Time conversions: seconds ↔ years
+    match_s_to_yr = re.match(
+        r'convert\s+([\deE.+-]+)\s*seconds?\s+to\s*years?',
+        query, re.IGNORECASE
+    )
+    if match_s_to_yr:
+        sec = float(match_s_to_yr.group(1))
+        return '\n'.join(seconds_to_years(sec))
+
+    match_yr_to_s = re.match(
+        r'convert\s+([\deE.+-]+)\s*years?\s+to\s*seconds?',
+        query, re.IGNORECASE
+    )
+    if match_yr_to_s:
+        yrs = float(match_yr_to_s.group(1))
+        return '\n'.join(years_to_seconds(yrs))
+
+    # Supply duration: total gallons and daily usage rate
+    match_supply = re.search(
+        r'holds\s+([\deE.+-]+)\s*gallons?.*?uses\s+([\deE.+-]+)\s*gallons?/day',
+        query, re.IGNORECASE | re.DOTALL
+    )
+    if match_supply:
+        total_str, rate_str = match_supply.groups()
+        total = float(total_str)
+        rate = float(rate_str)
+        return '\n'.join(days_supply_from_rate(total, rate))
+
+    # Distance-speed to time: miles at m/s to seconds
+    match_mi_at_speed_to_s = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+at\s+([\deE.+-]+)\s*m/s\s+to\s+seconds?',
+        query, re.IGNORECASE
+    )
+    if match_mi_at_speed_to_s:
+        dist, speed = map(float, match_mi_at_speed_to_s.groups())
+        return '\n'.join(miles_speed_to_seconds(dist, speed))
+
+    # Time-speed to distance: seconds at m/s to miles
+    match_ts_to_mi = re.match(
+        r'convert\s+([\deE.+-]+)\s*seconds?\s+at\s+([\deE.+-]+)\s*m/s\s+to\s+miles?',
+        query, re.IGNORECASE
+    )
+    if match_ts_to_mi:
+        sec, speed = map(float, match_ts_to_mi.groups())
+        return '\n'.join(seconds_speed_to_miles(sec, speed))
+
+    # Feet ↔ Kilometers
+    match_ft_to_km = re.match(
+        r'convert\s+([\deE.+-]+)\s*feet?\s+to\s+kilometers?',
+        query, re.IGNORECASE
+    )
+    if match_ft_to_km:
+        ft = float(match_ft_to_km.group(1))
+        return '\n'.join(feet_to_kilometers(ft))
+
+    match_km_to_ft = re.match(
+        r'convert\s+([\deE.+-]+)\s*kilometers?\s+to\s+feet?',
+        query, re.IGNORECASE
+    )
+    if match_km_to_ft:
+        km = float(match_km_to_ft.group(1))
+        return '\n'.join(kilometers_to_feet(km))
+
+    # Minutes ↔ Days
+    match_min_to_day = re.match(
+        r'convert\s+([\deE.+-]+)\s*minutes?\s+to\s+days?',
+        query, re.IGNORECASE
+    )
+    if match_min_to_day:
+        mins = float(match_min_to_day.group(1))
+        return '\n'.join(minutes_to_days(mins))
+
+    match_day_to_min = re.match(
+        r'convert\s+([\deE.+-]+)\s*days?\s+to\s+minutes?',
+        query, re.IGNORECASE
+    )
+    if match_day_to_min:
+        days = float(match_day_to_min.group(1))
+        return '\n'.join(days_to_minutes(days))
+
+    # Weeks ↔ Years
+    match_w_to_yr = re.match(
+        r'convert\s+([\deE.+-]+)\s*weeks?\s+to\s+years?',
+        query, re.IGNORECASE
+    )
+    if match_w_to_yr:
+        w = float(match_w_to_yr.group(1))
+        return '\n'.join(weeks_to_years(w))
+
+    match_yr_to_w = re.match(
+        r'convert\s+([\deE.+-]+)\s*years?\s+to\s+weeks?',
+        query, re.IGNORECASE
+    )
+    if match_yr_to_w:
+        y = float(match_yr_to_w.group(1))
+        return '\n'.join(years_to_weeks(y))
+
+    # Speed conversions: mph ↔ fps
+    match_mph_to_fps = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles/hour\s+to\s+feet/second',
+        query, re.IGNORECASE
+    )
+    if match_mph_to_fps:
+        return '\n'.join(mph_to_fps(float(match_mph_to_fps.group(1))))
+
+    match_fps_to_mph = re.match(
+        r'convert\s+([\deE.+-]+)\s*feet/second\s+to\s+miles/hour',
+        query, re.IGNORECASE
+    )
+    if match_fps_to_mph:
+        return '\n'.join(fps_to_mph(float(match_fps_to_mph.group(1))))
+
+    # Weight conversions: lb & oz ↔ mg
+    match_lb_oz_to_mg = re.match(
+        r'convert\s+([\deE.+-]+)\s*lb(?:s)?\s+and\s+([\deE.+-]+)\s*oz\s+to\s+mg',
+        query, re.IGNORECASE
+    )
+    if match_lb_oz_to_mg:
+        lb, oz = map(float, match_lb_oz_to_mg.groups())
+        return '\n'.join(lb_oz_to_mg(lb, oz))
+
+    match_mg_to_lb_oz = re.match(
+        r'convert\s+([\deE.+-]+)\s*mg\s+to\s+lb(?:s)?\s+and\s+oz',
+        query, re.IGNORECASE
+    )
+    if match_mg_to_lb_oz:
+        mg = float(match_mg_to_lb_oz.group(1))
+        return '\n'.join(mg_to_lb_oz(mg))
+
+    # Distance conversions: miles ↔ cm
+    match_mi_to_cm = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+to\s+centimeters?',
+        query, re.IGNORECASE
+    )
+    if match_mi_to_cm:
+        return '\n'.join(miles_to_cm(float(match_mi_to_cm.group(1))))
+
+    match_cm_to_mi = re.match(
+        r'convert\s+([\deE.+-]+)\s*centimeters?\s+to\s+miles?',
+        query, re.IGNORECASE
+    )
+    if match_cm_to_mi:
+        return '\n'.join(cm_to_miles(float(match_cm_to_mi.group(1))))
 
     # Pattern for general conversions: convert X unit1 of compound to unit2
     conv_pattern = re.compile(
@@ -726,3 +1387,5 @@ while True:
     if query.lower() == 'exit':
         break
     print(dimensional_analysis(query))
+
+# the end of this project is near, but I love this calculator dearly.
