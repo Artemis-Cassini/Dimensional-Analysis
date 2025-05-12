@@ -1,3 +1,119 @@
+# Density-based quarts ↔ pounds conversions (density in kg/quart)
+def quarts_to_pounds_using_density(qts, density_kg_per_qt):
+    """
+    Convert quarts to pounds using density (kg/quart).
+    """
+    kg = qts * density_kg_per_qt
+    lbs = kg * 2.20462
+    steps = [
+        f"Step 1: Given {qts} quarts and density = {density_kg_per_qt} kg/quart",
+        f"Step 2: Mass in kg = {qts} × {density_kg_per_qt} = {kg:.4f} kg",
+        f"Step 3: Convert to pounds: {kg:.4f} × 2.20462 = {lbs:.4f} lb",
+        f"Final Answer: {lbs:.4f} lb"
+    ]
+    return steps
+
+def pounds_to_quarts_using_density(lbs, density_kg_per_qt):
+    """
+    Convert pounds to quarts using density (kg/quart).
+    """
+    kg = lbs / 2.20462
+    qts = kg / density_kg_per_qt
+    steps = [
+        f"Step 1: Given {lbs} lb and density = {density_kg_per_qt} kg/quart",
+        f"Step 2: Convert to kg: {lbs} ÷ 2.20462 = {kg:.4f} kg",
+        f"Step 3: Volume in quarts = {kg:.4f} ÷ {density_kg_per_qt} = {qts:.4f} qts",
+        f"Final Answer: {qts:.4f} quarts"
+    ]
+    return steps
+
+# Time ↔ Months (assume 1 month = 30 days)
+SECONDS_PER_MONTH = 30 * 24 * 3600
+def months_to_seconds(months):
+    sec = months * SECONDS_PER_MONTH
+    steps = [
+        f"Step 1: Given {months} months",
+        f"Step 2: 1 month = {SECONDS_PER_MONTH} seconds",
+        f"{months} × {SECONDS_PER_MONTH} = {sec:.2f} s",
+        f"Final Answer: {sec:.2f} s"
+    ]
+    return steps
+
+def seconds_to_months(sec):
+    months = sec / SECONDS_PER_MONTH
+    steps = [
+        f"Step 1: Given {sec} seconds",
+        f"Step 2: Divide by {SECONDS_PER_MONTH} to convert s → months",
+        f"{sec} ÷ {SECONDS_PER_MONTH} = {months:.6f} months",
+        f"Final Answer: {months:.6f} months"
+    ]
+    return steps
+
+# Fuel consumption: miles ↔ gallons using rate (gal per km)
+def miles_to_gallons_using_rate(miles, fuel_gal, dist_km):
+    km = miles * 1.60934
+    gal = fuel_gal * (km / dist_km)
+    steps = [
+        f"Step 1: Given rate = {fuel_gal} gal per {dist_km} km",
+        f"Step 2: Convert {miles} miles to km: ×1.60934 = {km:.4f} km",
+        f"Step 3: Gallons needed = {fuel_gal} × ({km} ÷ {dist_km}) = {gal:.4f} gal",
+        f"Final Answer: {gal:.4f} gallons"
+    ]
+    return steps
+
+def gallons_to_miles_using_rate(gal, fuel_gal, dist_km):
+    # inverse: given gallons, compute miles
+    km = dist_km * (gal / fuel_gal)
+    miles = km / 1.60934
+    steps = [
+        f"Step 1: Given rate = {fuel_gal} gal per {dist_km} km",
+        f"Step 2: km traveled = {dist_km} × ({gal} ÷ {fuel_gal}) = {km:.4f} km",
+        f"Step 3: Convert to miles: {km:.4f} ÷ 1.60934 = {miles:.4f} miles",
+        f"Final Answer: {miles:.4f} miles"
+    ]
+    return steps
+
+# Weeks ↔ Minutes
+def weeks_to_minutes(weeks):
+    minutes = weeks * 7 * 24 * 60
+    steps = [
+        f"Step 1: Given {weeks} weeks",
+        f"Step 2: 1 week = 7×24×60 = {7*24*60} minutes",
+        f"{weeks} × {7*24*60} = {minutes:.2f} minutes",
+        f"Final Answer: {minutes:.2f} minutes"
+    ]
+    return steps
+
+def minutes_to_weeks(minutes):
+    weeks = minutes / (7 * 24 * 60)
+    steps = [
+        f"Step 1: Given {minutes} minutes",
+        f"Step 2: Divide by {7*24*60} to convert minutes → weeks",
+        f"{minutes} ÷ {7*24*60} = {weeks:.6f} weeks",
+        f"Final Answer: {weeks:.6f} weeks"
+    ]
+    return steps
+
+# Distance-time ↔ ft/s
+def miles_time_to_fps(miles, seconds):
+    feet = miles * 5280
+    fps = feet / seconds
+    steps = [
+        f"Step 1: Convert {miles} miles to feet: ×5280 = {feet:.2f} ft",
+        f"Step 2: Divide by {seconds} s → {fps:.4f} ft/s",
+        f"Final Answer: {fps:.4f} ft/s"
+    ]
+    return steps
+
+def fps_to_miles_time(fps, miles=1):
+    # inverse: time to travel one mile
+    seconds = (miles * 5280) / fps
+    steps = [
+        f"Step 1: Given speed = {fps} ft/s",
+        f"Step 2: Distance 1 mile = 5280 ft, time = 5280 ÷ {fps} = {seconds:.4f} s",
+        f"Final Answer: {seconds:.4f} seconds"
+    ]
+    return steps
 # Speed conversions: miles/hour ↔ feet/second
 def mph_to_fps(mph):
     fps = mph * 5280 / 3600
@@ -545,6 +661,156 @@ def moles_compound_to_element(val, compound_formula, element):
     return steps
 
 # Unit conversions: mL↔L and g↔kg
+
+# Unit conversions: yards ↔ centimeters, yards ↔ meters
+def yards_to_centimeters(yards):
+    cm = yards * 91.44
+    return [
+        f"Step 1: Given {yards} yards",
+        "Step 2: Multiply by 91.44 cm/yard",
+        f"{yards} × 91.44 = {cm:.2f} cm",
+        f"Final Answer: {cm:.2f} cm"
+    ]
+
+def centimeters_to_yards(cm):
+    yards = cm / 91.44
+    return [
+        f"Step 1: Given {cm} cm",
+        "Step 2: Divide by 91.44 cm/yard",
+        f"{cm} ÷ 91.44 = {yards:.4f} yards",
+        f"Final Answer: {yards:.4f} yards"
+    ]
+
+def yards_to_meters(yards):
+    m = yards * 0.9144
+    return [
+        f"Step 1: Given {yards} yards",
+        "Step 2: Multiply by 0.9144 m/yard",
+        f"{yards} × 0.9144 = {m:.4f} m",
+        f"Final Answer: {m:.4f} m"
+    ]
+
+def meters_to_yards(m):
+    yards = m / 0.9144
+    return [
+        f"Step 1: Given {m} meters",
+        "Step 2: Divide by 0.9144 m/yard",
+        f"{m} ÷ 0.9144 = {yards:.4f} yards",
+        f"Final Answer: {yards:.4f} yards"
+    ]
+
+def ounces_to_grams(oz):
+    g = oz * 28.3495
+    return [
+        f"Step 1: Given {oz} ounces",
+        "Step 2: Multiply by 28.3495 g/oz",
+        f"{oz} oz × 28.3495 = {g:.2f} g",
+        f"Final Answer: {g:.2f} g"
+    ]
+
+def grams_to_ounces(g):
+    oz = g / 28.3495
+    return [
+        f"Step 1: Given {g} grams",
+        "Step 2: Divide by 28.3495 g/oz",
+        f"{g} g ÷ 28.3495 = {oz:.4f} oz",
+        f"Final Answer: {oz:.4f} oz"
+    ]
+
+# Length conversions: inches ↔ millimeters
+def inches_to_mm(inches):
+    mm = inches * 25.4
+    return [
+        f"Step 1: Given {inches} inches",
+        "Step 2: Multiply by 25.4 mm/inch",
+        f"{inches} in × 25.4 = {mm:.4f} mm",
+        f"Final Answer: {mm:.4f} mm"
+    ]
+
+def mm_to_inches(mm):
+    inches = mm / 25.4
+    return [
+        f"Step 1: Given {mm} mm",
+        "Step 2: Divide by 25.4 mm/inch",
+        f"{mm} mm ÷ 25.4 = {inches:.4f} in",
+        f"Final Answer: {inches:.4f} in"
+    ]
+
+# Volume conversions: mL ↔ dm³
+def ml_to_dm3(ml):
+    dm3 = ml / 1000
+    return [
+        f"Step 1: Given {ml} mL",
+        "Step 2: Divide by 1000 to convert mL → dm³",
+        f"{ml} mL ÷ 1000 = {dm3:.4f} dm³",
+        f"Final Answer: {dm3:.4f} dm³"
+    ]
+
+def dm3_to_ml(dm3):
+    ml = dm3 * 1000
+    return [
+        f"Step 1: Given {dm3} dm³",
+        "Step 2: Multiply by 1000 to convert dm³ → mL",
+        f"{dm3} dm³ × 1000 = {ml:.1f} mL",
+        f"Final Answer: {ml:.1f} mL"
+    ]
+
+# Mass conversions: grams ↔ metric tons
+def grams_to_tons(g):
+    tons = g / 1e6
+    return [
+        f"Step 1: Given {g} grams",
+        "Step 2: Divide by 1e6 to convert g → metric tons",
+        f"{g} g ÷ 1e6 = {tons:.6f} tons",
+        f"Final Answer: {tons:.6f} tons"
+    ]
+
+def tons_to_grams(tons):
+    g = tons * 1e6
+    return [
+        f"Step 1: Given {tons} tons",
+        "Step 2: Multiply by 1e6 to convert tons → g",
+        f"{tons} tons × 1e6 = {g:.0f} g",
+        f"Final Answer: {g:.0f} g"
+    ]
+
+# Time conversions: minutes ↔ years
+def minutes_to_years(mins):
+    years = mins / 525600
+    return [
+        f"Step 1: Given {mins} minutes",
+        "Step 2: Divide by 525600 to convert minutes → years",
+        f"{mins} min ÷ 525600 = {years:.6f} years",
+        f"Final Answer: {years:.6f} years"
+    ]
+
+def years_to_minutes(years):
+    mins = years * 525600
+    return [
+        f"Step 1: Given {years} years",
+        "Step 2: Multiply by 525600 to convert years → minutes",
+        f"{years} years × 525600 = {mins:.0f} minutes",
+        f"Final Answer: {mins:.0f} minutes"
+    ]
+
+# Volume to mass: quarts ↔ pounds (water)
+def quarts_to_pounds(qts):
+    lbs = qts * 2.08645
+    return [
+        f"Step 1: Given {qts} quarts",
+        "Step 2: Multiply by 2.08645 lb/quart",
+        f"{qts} qt × 2.08645 = {lbs:.2f} lb",
+        f"Final Answer: {lbs:.2f} lb"
+    ]
+
+def pounds_to_quarts(lbs):
+    qts = lbs / 2.08645
+    return [
+        f"Step 1: Given {lbs} pounds",
+        "Step 2: Divide by 2.08645 lb/quart",
+        f"{lbs} lb ÷ 2.08645 = {qts:.4f} qt",
+        f"Final Answer: {qts:.4f} qt"
+    ]
 def ml_to_liter(ml):
     liters = ml / 1000
     steps = [
@@ -871,10 +1137,272 @@ def days_supply_from_rate(total_gallons, daily_rate_gpd):
     ]
     return steps
 
+# Inverse supply calculation: gallons/day × days → total gallons
+def total_supply_from_rate_and_days(daily_rate_gpd, days):
+    total = daily_rate_gpd * days
+    steps = [
+        f"Step 1: Given daily usage rate = {daily_rate_gpd} gallons/day",
+        f"Step 2: Given duration = {days} days",
+        f"Step 3: Total supply = {daily_rate_gpd} × {days} = {total:.2f} gallons",
+        f"Final Answer: {total:.2f} gallons"
+    ]
+    return steps
+
+# Inverse unit conversions
+
+def liters_to_gallons(liters):
+    gal = liters / 3.78541
+    return [
+        f"Step 1: Given {liters} liters",
+        "Step 2: Divide by 3.78541 L/gallon",
+        f"{liters} L ÷ 3.78541 = {gal:.4f} gallons",
+        f"Final Answer: {gal:.4f} gallons"
+    ]
+
+def drops_to_milliliters(drops):
+    ml = drops / DROPS_PER_ML
+    return [
+        f"Step 1: Given {drops} drops",
+        f"Step 2: Convert drops to mL: {drops} ÷ {DROPS_PER_ML} = {ml:.4f} mL",
+        f"Final Answer: {ml:.4f} mL"
+    ]
+
+def gallons_per_second_to_gallons_per_day(gal_per_s):
+    galpd = gal_per_s * 86400
+    return [
+        f"Step 1: Given {gal_per_s} gallons/second",
+        "Step 2: Multiply by 86400 s/day to convert to gallons/day",
+        f"{gal_per_s} gal/s × 86400 = {galpd:.2f} gallons/day",
+        f"Final Answer: {galpd:.2f} gallons/day"
+    ]
+
+def hours_per_day_to_minutes_per_day(hrpd):
+    minpd = hrpd * 60
+    return [
+        f"Step 1: Given {hrpd} hours/day",
+        "Step 2: Multiply by 60 to convert hours → minutes",
+        f"{hrpd} hr/day × 60 = {minpd:.2f} minutes/day",
+        f"Final Answer: {minpd:.2f} minutes/day"
+    ]
+
+ # Consumption time calculation (e.g., dog food rate)
+def consumption_time_to_target(target_qty, target_unit, rate_qty, rate_unit, rate_time_s):
+    """
+    Calculate time to consume target_qty of unit, given rate_qty per rate_time_s (seconds).
+    Returns time in seconds and minutes.
+    """
+    # seconds per unit
+    sec_per_unit = rate_time_s / rate_qty
+    total_sec = sec_per_unit * target_qty
+    minutes = total_sec / 60
+    steps = [
+        f"Step 1: Consumption rate = {rate_qty} {rate_unit} / {rate_time_s} s",
+        f"Step 2: Time per {rate_unit} = {rate_time_s} s ÷ {rate_qty} = {sec_per_unit:.4f} s/{rate_unit}",
+        f"Step 3: Total time = {sec_per_unit:.4f} s/{rate_unit} × {target_qty} {target_unit} = {total_sec:.4f} s",
+        f"Step 4: Convert to minutes: {total_sec:.4f} s ÷ 60 = {minutes:.4f} min",
+        f"Final Answer: {minutes:.4f} min"
+    ]
+    return steps
+
+# Volume to mass using density for liters
+def volume_to_mass(volume_L, density_g_per_mL):
+    """
+    Convert volume in liters to mass in grams using density (g/mL).
+    """
+    mL = volume_L * 1000
+    mass_g = mL * density_g_per_mL
+    steps = [
+        f"Step 1: Given density = {density_g_per_mL} g/mL",
+        f"Step 2: Convert volume to mL: {volume_L} L × 1000 = {mL:.1f} mL",
+        f"Step 3: Mass = {mL:.1f} mL × {density_g_per_mL} g/mL = {mass_g:.2f} g",
+        f"Final Answer: {mass_g:.2f} g"
+    ]
+    return steps
+
+# Mass → volume in liters using density (g/mL)
+def mass_to_liters(grams, density_g_per_mL):
+    """
+    Convert mass in grams to volume in liters using density (g/mL).
+    """
+    mL = grams / density_g_per_mL
+    L = mL / 1000
+    steps = [
+        f"Step 1: Given {grams} g and density = {density_g_per_mL} g/mL",
+        f"Step 2: Volume in mL = {grams} g ÷ {density_g_per_mL} g/mL = {mL:.2f} mL",
+        f"Step 3: Convert to liters: {mL:.2f} mL ÷ 1000 = {L:.4f} L",
+        f"Final Answer: {L:.4f} L"
+    ]
+    return steps
+
 def dimensional_analysis(query):
     import re
     query = query.strip()
     print(f"DEBUG: Received query: '{query}'")
+
+    # Yards ↔ Centimeters
+    match_yd_to_cm = re.match(r'convert\s+([\deE.+-]+)\s*yards?\s+to\s+centimeters?', query, re.IGNORECASE)
+    if match_yd_to_cm:
+        return '\n'.join(yards_to_centimeters(float(match_yd_to_cm.group(1))))
+
+    match_cm_to_yd = re.match(r'convert\s+([\deE.+-]+)\s*centimeters?\s+to\s+yards?', query, re.IGNORECASE)
+    if match_cm_to_yd:
+        return '\n'.join(centimeters_to_yards(float(match_cm_to_yd.group(1))))
+
+    # Yards ↔ Meters
+    match_yd_to_m = re.match(r'convert\s+([\deE.+-]+)\s*yards?\s+to\s+meters?', query, re.IGNORECASE)
+    if match_yd_to_m:
+        return '\n'.join(yards_to_meters(float(match_yd_to_m.group(1))))
+
+    match_m_to_yd = re.match(r'convert\s+([\deE.+-]+)\s*meters?\s+to\s+yards?', query, re.IGNORECASE)
+    if match_m_to_yd:
+        return '\n'.join(meters_to_yards(float(match_m_to_yd.group(1))))
+
+    # Inches ↔ Millimeters
+    match_in_to_mm = re.match(
+        r'convert\s+([\deE.+-]+)\s*inches?\s+to\s+millimeters?',
+        query, re.IGNORECASE
+    )
+    if match_in_to_mm:
+        return '\n'.join(inches_to_mm(float(match_in_to_mm.group(1))))
+
+    match_mm_to_in = re.match(
+        r'convert\s+([\deE.+-]+)\s*millimeters?\s+to\s+inches?',
+        query, re.IGNORECASE
+    )
+    if match_mm_to_in:
+        return '\n'.join(mm_to_inches(float(match_mm_to_in.group(1))))
+
+    # mL ↔ dm³
+    match_ml_to_dm3 = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:mL|ml|milliliters?)\s+to\s+dm3|dm³',
+        query, re.IGNORECASE
+    )
+    if match_ml_to_dm3:
+        return '\n'.join(ml_to_dm3(float(match_ml_to_dm3.group(1))))
+
+    match_dm3_to_ml = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:dm3|dm³)\s+to\s+(?:mL|ml|milliliters?)',
+        query, re.IGNORECASE
+    )
+    if match_dm3_to_ml:
+        return '\n'.join(dm3_to_ml(float(match_dm3_to_ml.group(1))))
+
+    # Ounces ↔ Grams
+    match_oz_to_g = re.match(r'convert\s+([\deE.+-]+)\s*ounces?\s+to\s+grams?', query, re.IGNORECASE)
+    if match_oz_to_g:
+        return '\n'.join(ounces_to_grams(float(match_oz_to_g.group(1))))
+
+    match_g_to_oz = re.match(r'convert\s+([\deE.+-]+)\s*grams?\s+to\s+ounces?', query, re.IGNORECASE)
+    if match_g_to_oz:
+        return '\n'.join(grams_to_ounces(float(match_g_to_oz.group(1))))
+
+    # Grams ↔ Tons
+    match_g_to_ton = re.match(r'convert\s+([\deE.+-]+)\s*grams?\s+to\s+tons?', query, re.IGNORECASE)
+    if match_g_to_ton:
+        return '\n'.join(grams_to_tons(float(match_g_to_ton.group(1))))
+
+    match_ton_to_g = re.match(r'convert\s+([\deE.+-]+)\s*tons?\s+to\s+grams?', query, re.IGNORECASE)
+    if match_ton_to_g:
+        return '\n'.join(tons_to_grams(float(match_ton_to_g.group(1))))
+
+    # Minutes ↔ Years
+    match_min_to_yr = re.match(r'convert\s+([\deE.+-]+)\s*minutes?\s+to\s+years?', query, re.IGNORECASE)
+    if match_min_to_yr:
+        return '\n'.join(minutes_to_years(float(match_min_to_yr.group(1))))
+
+    match_yr_to_min = re.match(r'convert\s+([\deE.+-]+)\s*years?\s+to\s+minutes?', query, re.IGNORECASE)
+    if match_yr_to_min:
+        return '\n'.join(years_to_minutes(float(match_yr_to_min.group(1))))
+
+    # Quarts ↔ Pounds
+    match_qt_to_lb = re.match(r'convert\s+([\deE.+-]+)\s*quarts?\s+to\s+pounds?', query, re.IGNORECASE)
+    if match_qt_to_lb:
+        return '\n'.join(quarts_to_pounds(float(match_qt_to_lb.group(1))))
+
+    match_lb_to_qt = re.match(r'convert\s+([\deE.+-]+)\s*pounds?\s+to\s+quarts?', query, re.IGNORECASE)
+    if match_lb_to_qt:
+        return '\n'.join(pounds_to_quarts(float(match_lb_to_qt.group(1))))
+
+    # Quarts ↔ Pounds via density
+    match_qt_to_lb_den = re.match(
+        r'convert\s+([\deE.+-]+)\s*quarts?\s+to\s+pounds?\s+using\s+density\s+([\deE.+-]+)\s*kg/quart',
+        query, re.IGNORECASE
+    )
+    if match_qt_to_lb_den:
+        qts, dens = match_qt_to_lb_den.groups()
+        return '\n'.join(quarts_to_pounds_using_density(float(qts), float(dens)))
+
+    match_lb_to_qt_den = re.match(
+        r'convert\s+([\deE.+-]+)\s*pounds?\s+to\s+quarts?\s+using\s+density\s+([\deE.+-]+)\s*kg/quart',
+        query, re.IGNORECASE
+    )
+    if match_lb_to_qt_den:
+        lbs, dens = match_lb_to_qt_den.groups()
+        return '\n'.join(pounds_to_quarts_using_density(float(lbs), float(dens)))
+
+    # Time ↔ Months
+    match_mon_to_s = re.match(
+        r'convert\s+([\deE.+-]+)\s*months?\s+to\s+seconds?',
+        query, re.IGNORECASE
+    )
+    if match_mon_to_s:
+        return '\n'.join(months_to_seconds(float(match_mon_to_s.group(1))))
+
+    match_s_to_mon = re.match(
+        r'convert\s+([\deE.+-]+)\s*seconds?\s+to\s+months?',
+        query, re.IGNORECASE
+    )
+    if match_s_to_mon:
+        return '\n'.join(seconds_to_months(float(match_s_to_mon.group(1))))
+
+    # Fuel consumption: miles ↔ gallons using rate
+    match_mi_to_gal_rate = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+to\s+gallons?\s+using\s+([\deE.+-]+)\s*gal\s+per\s+([\deE.+-]+)\s*km',
+        query, re.IGNORECASE
+    )
+    if match_mi_to_gal_rate:
+        mi, gal, km = map(float, match_mi_to_gal_rate.groups())
+        return '\n'.join(miles_to_gallons_using_rate(mi, gal, km))
+
+    match_gal_to_mi_rate = re.match(
+        r'convert\s+([\deE.+-]+)\s*gallons?\s+to\s+miles?\s+using\s+([\deE.+-]+)\s*gal\s+per\s+([\deE.+-]+)\s*km',
+        query, re.IGNORECASE
+    )
+    if match_gal_to_mi_rate:
+        gal, gal1, km = map(float, match_gal_to_mi_rate.groups())
+        return '\n'.join(gallons_to_miles_using_rate(gal, gal1, km))
+
+    # Weeks ↔ Minutes
+    match_w_to_min = re.match(
+        r'convert\s+([\deE.+-]+)\s*weeks?\s+to\s+minutes?',
+        query, re.IGNORECASE
+    )
+    if match_w_to_min:
+        return '\n'.join(weeks_to_minutes(float(match_w_to_min.group(1))))
+
+    match_min_to_w = re.match(
+        r'convert\s+([\deE.+-]+)\s*minutes?\s+to\s+weeks?',
+        query, re.IGNORECASE
+    )
+    if match_min_to_w:
+        return '\n'.join(minutes_to_weeks(float(match_min_to_w.group(1))))
+
+    # Distance-time ↔ ft/s
+    match_mi_time_to_fps = re.match(
+        r'convert\s+([\deE.+-]+)\s*miles?\s+in\s+([\deE.+-]+)\s*seconds?\s+to\s+feet/second',
+        query, re.IGNORECASE
+    )
+    if match_mi_time_to_fps:
+        mi, sec = map(float, match_mi_time_to_fps.groups())
+        return '\n'.join(miles_time_to_fps(mi, sec))
+
+    match_fps_to_time = re.match(
+        r'convert\s+([\deE.+-]+)\s*ft/s\s+to\s+seconds?',
+        query, re.IGNORECASE
+    )
+    if match_fps_to_time:
+        fps = float(match_fps_to_time.group(1))
+        return '\n'.join(fps_to_miles_time(fps))
 
     # Convert mL to L
     match_ml_to_L = re.match(
@@ -1062,6 +1590,62 @@ def dimensional_analysis(query):
         yrs = float(match_yr_to_s.group(1))
         return '\n'.join(years_to_seconds(yrs))
 
+    # Hours/day → Minutes/day
+    match_hrpd_to_minpd = re.match(
+        r'convert\s+([\deE.+-]+)\s*hours?/day\s+to\s*minutes?/day',
+        query, re.IGNORECASE
+    )
+    if match_hrpd_to_minpd:
+        hrpd = float(match_hrpd_to_minpd.group(1))
+        return '\n'.join(hours_per_day_to_minutes_per_day(hrpd))
+
+    # Liters → Gallons
+    match_L_to_gal = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:L|l|liters?)\s+to\s+gallons?',
+        query, re.IGNORECASE
+    )
+    if match_L_to_gal:
+        liters = float(match_L_to_gal.group(1))
+        return '\n'.join(liters_to_gallons(liters))
+
+    # Drops → mL
+    match_drops_to_ml = re.match(
+        r'convert\s+([\deE.+-]+)\s*drops?\s+to\s*(?:mL|ml|milliliters?)',
+        query, re.IGNORECASE
+    )
+    if match_drops_to_ml:
+        drops = float(match_drops_to_ml.group(1))
+        return '\n'.join(drops_to_milliliters(drops))
+
+    # Gallons/second → Gallons/day
+    match_galps_to_galpd = re.match(
+        r'convert\s+([\deE.+-]+)\s*gallons?/second\s+to\s+gallons?/day',
+        query, re.IGNORECASE
+    )
+    if match_galps_to_galpd:
+        galps = float(match_galps_to_galpd.group(1))
+        return '\n'.join(gallons_per_second_to_gallons_per_day(galps))
+
+    # ft/sec → mi/hr (allow ft/s, ft/sec, mi/h, mi/hr)
+    match_ftps_to_mihr = re.match(
+        r'convert\s+([\deE.+-]+)\s*ft/?s(?:ec(onds?)?)?\s+to\s*mi/?h(?:r|ours?)?',
+        query, re.IGNORECASE
+    )
+    if match_ftps_to_mihr:
+        fps_val = float(match_ftps_to_mihr.group(1))
+        return '\n'.join(fps_to_mph(fps_val))
+
+    # Inverse supply: daily usage and duration → total gallons
+    match_supply_inv = re.search(
+        r'uses\s+([\deE.+-]+)\s*gallons?/day\s+for\s+([\deE.+-]+)\s*days',
+        query, re.IGNORECASE
+    )
+    if match_supply_inv:
+        rate_str, days_str = match_supply_inv.groups()
+        rate = float(rate_str)
+        days = float(days_str)
+        return '\n'.join(total_supply_from_rate_and_days(rate, days))
+
     # Supply duration: total gallons and daily usage rate
     match_supply = re.search(
         r'holds\s+([\deE.+-]+)\s*gallons?.*?uses\s+([\deE.+-]+)\s*gallons?/day',
@@ -1072,6 +1656,31 @@ def dimensional_analysis(query):
         total = float(total_str)
         rate = float(rate_str)
         return '\n'.join(days_supply_from_rate(total, rate))
+
+    # Generic consumption time: rate_qty rate_unit in rate_time seconds → target_qty target_unit
+    match_cons = re.search(
+        r'(\d+(?:\.\d+)?)\s*([A-Za-z]+)\s+in\s+(\d+(?:\.\d+)?)\s*seconds.*?(\d+(?:\.\d+)?)\s*([A-Za-z]+)',
+        query, re.IGNORECASE
+    )
+    if match_cons:
+        rate_qty, rate_unit, rate_time_s, target_qty, target_unit = match_cons.groups()
+        rate_qty = float(rate_qty)
+        rate_time_s = float(rate_time_s)
+        target_qty = float(target_qty)
+        return '\n'.join(consumption_time_to_target(
+            target_qty, target_unit, rate_qty, rate_unit, rate_time_s
+        ))
+
+    # Zinc block mass (density g/mL, volume in L)
+    match_zinc = re.search(
+        r'density of zinc is approximately\s*([\deE.+-]+)\s*g/mL.*?mass of a\s*([\deE.+-]+)\s*L block of zinc',
+        query, re.IGNORECASE | re.DOTALL
+    )
+    if match_zinc:
+        density, vol_L = match_zinc.groups()
+        density = float(density)
+        vol_L = float(vol_L)
+        return '\n'.join(volume_to_mass(vol_L, density))
 
     # Distance-speed to time: miles at m/s to seconds
     match_mi_at_speed_to_s = re.match(
@@ -1192,9 +1801,9 @@ def dimensional_analysis(query):
     # Pattern for general conversions: convert X unit1 of compound to unit2
     conv_pattern = re.compile(
     r'convert\s+([\deE.+-]+)\s*'
-    r'(molecules?|particles?|moles?|grams?|liters?|mol|g|l)\s+of\s+'
+    r'(molecules?|particles?|atoms?|moles?|grams?|liters?|mol|g|l)\s+of\s+'
     r'([A-Za-z0-9().*]+)\s+to\s+'
-    r'(molecules?|particles?|moles?|grams?|liters?|mol|g|l)',
+    r'(molecules?|particles?|atoms?|moles?|grams?|liters?|mol|g|l)',
     re.IGNORECASE
 )
     
@@ -1215,6 +1824,7 @@ def dimensional_analysis(query):
             'g': 'gram',
             'molecule': 'particle', 'molecules': 'particle',
             'particle': 'particle', 'particles': 'particle',
+            'atom': 'particle', 'atoms': 'particle',
             'liter': 'liter', 'liters': 'liter',
             'l': 'liter',
         }
@@ -1252,6 +1862,30 @@ def dimensional_analysis(query):
 
         elif from_unit == 'particle' and to_unit == 'mole':
             steps.extend(particles_to_moles(value))
+            return '\n'.join(steps)
+
+        elif from_unit == 'gram' and to_unit == 'particle':
+            try:
+                mm = molar_mass(compound)
+            except ValueError as e:
+                return str(e)
+            # 1) grams → moles
+            steps.extend(grams_to_moles(value, mm))
+            # 2) moles → particles
+            moles_value = value / mm
+            steps.extend(moles_to_particles(moles_value))
+            return '\n'.join(steps)
+
+        elif from_unit == 'particle' and to_unit == 'gram':
+            # 1) particles → moles
+            moles_value = value / AVOGADRO
+            steps.extend(particles_to_moles(value))
+            # 2) moles → grams
+            try:
+                mm = molar_mass(compound)
+            except ValueError as e:
+                return str(e)
+            steps.extend(moles_to_grams(moles_value, mm))
             return '\n'.join(steps)
 
         elif from_unit == 'mole' and to_unit == 'liter':
@@ -1306,6 +1940,17 @@ def dimensional_analysis(query):
         grams = float(grams_str)
         density = float(density_str)
         return '\n'.join(grams_to_volume(grams, density))
+
+    # Mass → volume in liters using density
+    match_mass_to_L = re.match(
+        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+[A-Za-z0-9().*]+\s+to\s+liters?\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
+        query, re.IGNORECASE
+    )
+    if match_mass_to_L:
+        grams_str, density_str = match_mass_to_L.groups()
+        grams = float(grams_str)
+        density = float(density_str)
+        return '\n'.join(mass_to_liters(grams, density))
 
     # Acid-base titration volume calculation
     match_titr = re.match(
