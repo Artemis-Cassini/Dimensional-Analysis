@@ -2030,10 +2030,10 @@ def dimensional_analysis(query):
 # … all your function definitions above …
 
 if __name__ == "__main__":
-    # Interactive REPL for local testing only
+    # Local interactive REPL for testing
     while True:
         q = input("Enter your dimensional analysis query (or type 'exit' to quit): ")
         if q.strip().lower() == "exit":
             break
-        print(dimensional_analysis(q))   # or however you print results
+        print(dimensional_analysis(q))
     
