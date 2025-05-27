@@ -2027,9 +2027,13 @@ def dimensional_analysis(query):
     return "Sorry, I couldn't understand that conversion request."
 
 # Example usage
-while True:
-    query = input("Enter your dimensional analysis query (or type 'exit' to quit): ")
-    if query.lower() == 'exit':
-        break
-    print(dimensional_analysis(query))
+# … all your function definitions above …
+
+if __name__ == "__main__":
+    # Local interactive REPL for testing
+    while True:
+        q = input("Enter your dimensional analysis query (or type 'exit' to quit): ")
+        if q.strip().lower() == "exit":
+            break
+        print(dimensional_analysis(q))
     
