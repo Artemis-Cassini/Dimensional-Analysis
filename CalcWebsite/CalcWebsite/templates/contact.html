@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact • Dimensional Analysis Calculator</title>
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <!-- Core Styles -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <!-- Page-specific overrides -->
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--green-pale), var(--white) 80%);
+      margin: 0;
+      padding: 0;
+    }
+    header h1 {
+      font-size: 2.5rem;
+      letter-spacing: 1px;
+      margin: 0;
+      padding: 1.5rem 0;
+      text-align: center;
+      background-color: var(--green-dark);
+      color: var(--white);
+    }
+    nav.main-nav {
+      position: sticky;
+      top: 0;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(5px);
+      width: 100%;
+      z-index: 10;
+      padding: 0.75rem 0;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+    nav.main-nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin: 0;
+      padding: 0;
+    }
+    nav.main-nav a {
+      text-decoration: none;
+      font-weight: 600;
+      color: var(--green-dark);
+      font-size: 1rem;
+    }
+    nav.main-nav a:hover {
+      color: var(--green-mid);
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem;
+    }
+    .info-box {
+      background: rgba(255,255,255,0.9);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 600px;
+      max-height: 300px;
+      overflow-y: auto;
+      margin: 0 auto;
+    }
+    /* Back button styling */
+    .back-button {
+      display: inline-block;
+      margin: 1.5rem auto 0;
+      padding: 0.75rem 1.5rem;
+      background: var(--green-mid);
+      color: var(--white);
+      text-decoration: none;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .back-button:hover {
+      background: var(--green-dark);
+    }
+    footer {
+      text-align: center;
+      padding: 1rem 0;
+      background-color: var(--gray-light);
+      color: var(--gray-dark);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Contact</h1>
+  </header>
+  <nav class="main-nav">
+    <ul>
+      <li><a href="/about">About</a></li>
+      <li><a href="/how-to">How to Use</a></li>
+      <li><a href="/">Conversions</a></li>
+      <li><a href="/about-me">About Me</a></li>
+      <li><a href="/contact">Contact</a></li>
+    </ul>
+  </nav>
+  <main>
+    <section class="info-box" id="how-to">
+      <h2>Contact</h2>
+      <ul>
+        <h3>Questions? Comments? Concerns? Reach out to me please!</h3>
+        <a href="mailto:cara@artemiscassini.space">Email</a>
+        -
+        <a href="https://artemiscassini.space/">Personal Website</a>
+        -
+        <a href="https://github.com/Artemis-Cassini">My Github</a>
+      </ul>
+    </section>
+
+    <!-- ← Back to Conversions -->
+    <a href="/" class="back-button">← Back</a>
+  </main>
+  <footer>
+    <p>&copy; 2025 Artemis Cassini</p>
+  </footer>
+</body>
+</html>
