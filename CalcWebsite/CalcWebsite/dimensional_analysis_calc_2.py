@@ -474,6 +474,35 @@ def particles_to_moles(particles):
         f"Final Answer: {moles:.4f} mol"
     ]
 
+def particles_of_compound_to_moles(particles, compound):
+    """
+    Convert number of particles of a compound to moles.
+    """
+    moles = particles / AVOGADRO
+    steps = [
+        f"Step 1: Given {particles:.3e} particles of {compound}",
+        f"Step 2: Divide by Avogadro's number ({AVOGADRO:.3e})",
+        f"{particles:.3e} ÷ {AVOGADRO:.3e} = {moles:.4f} mol",
+        f"Final Answer: {moles:.4f} mol {compound}"
+    ]
+    return steps
+
+def grams_of_compound_to_particles(grams, compound):
+    """
+    Convert grams of a compound to number of particles.
+    """
+    mm = molar_mass(compound)
+    moles = grams / mm
+    particles = moles * AVOGADRO
+    steps = [
+        f"Step 1: Given {grams:.4f} g of {compound}",
+        f"Step 2: Molar mass of {compound} = {mm:.3f} g/mol",
+        f"Step 3: Moles = {grams:.4f} ÷ {mm:.3f} = {moles:.4f} mol",
+        f"Step 4: Particles = {moles:.4f} mol × {AVOGADRO:.3e} = {particles:.3e}",
+        f"Final Answer: {particles:.3e} particles of {compound}"
+    ]
+    return steps
+
 # Moles ↔ Liters (STP)
 STP_VOLUME = 22.4  # L/mol
 
@@ -830,6 +859,58 @@ def g_to_kg(grams):
         "Step 2: Divide by 1000 to convert g → kg",
         f"{grams} g ÷ 1000 = {kilograms:.3f} kg",
         f"Final Answer: {kilograms:.3f} kg"
+    ]
+    return steps
+
+def L_to_ml(liters):
+    """
+    Convert liters to milliliters.
+    """
+    ml = liters * 1000
+    steps = [
+        f"Step 1: Given {liters:.4f} L",
+        "Step 2: Convert L → mL: ×1000",
+        f"{liters:.4f} L × 1000 = {ml:.4f} mL",
+        f"Final Answer: {ml:.4f} mL"
+    ]
+    return steps
+
+def kg_to_g(kg):
+    """
+    Convert kilograms to grams.
+    """
+    grams = kg * 1000
+    steps = [
+        f"Step 1: Given {kg:.4f} kg",
+        "Step 2: Convert kg → g: ×1000",
+        f"{kg:.4f} kg × 1000 = {grams:.4f} g",
+        f"Final Answer: {grams:.4f} g"
+    ]
+    return steps
+
+def L_to_ml(liters):
+    """
+    Convert liters to milliliters.
+    """
+    ml = liters * 1000
+    steps = [
+        f"Step 1: Given {liters:.4f} L",
+        "Step 2: Convert L → mL: ×1000",
+        f"{liters:.4f} L × 1000 = {ml:.4f} mL",
+        f"Final Answer: {ml:.4f} mL"
+    ]
+    return steps
+
+def kg_to_g(kg):
+    """
+    Convert kilograms to grams.
+    """
+    grams = kg * 1000
+    steps = [
+        f"Step 1: Given {kg:.4f} kg",
+        "Step 2: Convert kg → g: ×1000",
+        f"{kg:.4f} kg × 1000 = {grams:.4f} g",
+        f"Final Answer: {grams:.4f} g"
     ]
     return steps
 
@@ -1424,6 +1505,68 @@ def dimensional_analysis(query):
         grams = float(match_g_to_kg.group(1))
         return '\n'.join(g_to_kg(grams))
 
+    # Convert kg to g
+    match_kg_to_g = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:kg|kilograms?)\s+to\s*(?:g|grams?)',
+        query, re.IGNORECASE
+    )
+    if match_kg_to_g:
+        kg_val = float(match_kg_to_g.group(1))
+        return '\n'.join(kg_to_g(kg_val))
+
+    # Convert L to mL
+    match_L_to_mL = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:L|l|liters?)\s+to\s*(?:mL|ml|milliliters?)',
+        query, re.IGNORECASE
+    )
+    if match_L_to_mL:
+        liters_val = float(match_L_to_mL.group(1))
+        return '\n'.join(L_to_ml(liters_val))
+
+    # Convert particles to moles (simple)
+    match_particles_to_moles_simple = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:particles?)\s+to\s*(?:moles?)',
+        query, re.IGNORECASE
+    )
+    if match_particles_to_moles_simple:
+        particles_val = float(match_particles_to_moles_simple.group(1))
+        return '\n'.join(particles_to_moles(particles_val))
+    
+    
+
+    # Convert particles of <Compound> to moles
+    match_particles_of_compound_to_moles = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:particles?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s*(?:moles?)',
+        query, re.IGNORECASE
+    )
+    if match_particles_of_compound_to_moles:
+        particles_str, comp = match_particles_of_compound_to_moles.groups()
+        particles_val = float(particles_str)
+        comp = fix_case(comp)
+        return '\n'.join(particles_of_compound_to_moles(particles_val, comp))
+    
+    
+
+    # Convert grams of <Compound> to particles
+    match_grams_to_particles = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:grams?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s*(?:particles?)',
+        query, re.IGNORECASE
+    )
+    if match_grams_to_particles:
+        grams_str, comp = match_grams_to_particles.groups()
+        grams_val = float(grams_str)
+        comp = fix_case(comp)
+        return '\n'.join(grams_of_compound_to_particles(grams_val, comp))
+
+    # Convert L to moles (STP)
+    match_L_to_mole_STP = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:L|l|liters?)\s+to\s*(?:moles?)',
+        query, re.IGNORECASE
+    )
+    if match_L_to_mole_STP:
+        liters_val = float(match_L_to_mole_STP.group(1))
+        return '\n'.join(liters_to_moles_stp(liters_val))
+
     # Distance conversions
     match_mi_to_km = re.match(
         r'convert\s+([\deE.+-]+)\s*miles?\s+to\s+kilometers?',
@@ -1808,7 +1951,6 @@ def dimensional_analysis(query):
     r'(molecules?|particles?|atoms?|moles?|grams?|liters?|mol|g|l)',
     re.IGNORECASE
 )
-    
 
     m = conv_pattern.fullmatch(query)   # requires that the entire string conforms
     print(f"DEBUG: conv_pattern match: {bool(m)}")
@@ -1900,16 +2042,6 @@ def dimensional_analysis(query):
 
         else:
             return "Unsupported conversion type."
-
-    # Molarity from moles and volume
-    molar_pattern = re.compile(
-        r'(?:molarity\s+from|convert)\s+([\deE.+-]+)\s*mol\s+and\s+([\deE.+-]+)\s*(?:L|l|liters?)',
-        re.IGNORECASE
-    )
-    m2 = molar_pattern.match(query)
-    if m2:
-        mol, vol = map(float, m2.groups())
-        return '\n'.join(molarity_from_moles_and_volume(mol, vol))
 
     # Percent yield
     yield_pattern = re.compile(
