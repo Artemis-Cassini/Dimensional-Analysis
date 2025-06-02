@@ -627,7 +627,9 @@ def stoichiometry_moles(val, from_comp, to_comp, reaction_str):
     terms = sides[0].split('+') + (sides[1].split('+') if len(sides)>1 else [])
     stoich = {}
     for term in terms:
-        m = re.match(r'(\d*)([A-Za-z][A-Za-z0-9().*]+)', term)
+        m = re.match(r'(\d*)([A-Za-z][A-Za-z0-9().*]*)', term)
+        if not m:
+            return [f"Error: Unable to parse term '{term}' in reaction."]
         coeff = int(m.group(1)) if m.group(1) else 1
         frm = m.group(2)
         stoich[frm] = coeff
@@ -1996,6 +1998,189 @@ def dimensional_analysis(query):
         comp_formula = fix_case(comp_formula)
         elem_symbol = elem_symbol.capitalize()
         return '\n'.join(moles_compound_to_element(val, comp_formula, elem_symbol))
+
+    # Moles of compound to grams of element
+    match_moles_comp_to_grams_elem = re.match(
+        r'convert\s+([\deE.+-]+)\s*moles?\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+of\s+([A-Za-z][a-z]?)',
+        query, re.IGNORECASE
+    )
+    if match_moles_comp_to_grams_elem:
+        moles_str, comp, elem = match_moles_comp_to_grams_elem.groups()
+        moles_val = float(moles_str)
+        comp = fix_case(comp)
+        elem = elem.capitalize()
+        # Calculate total moles of element
+        counts = parse_formula(comp)
+        if elem not in counts:
+            return f"Error: element '{elem}' not found in compound {comp}."
+        atom_count = counts[elem]
+        moles_elem = moles_val * atom_count
+        # Convert moles of element to grams
+        mm_elem = PERIODIC_TABLE[elem]
+        grams_elem = moles_elem * mm_elem
+        steps = [
+            f"Step 1: Compound formula {comp} contains {atom_count} {elem} atom(s) per formula unit",
+            f"Step 2: {moles_val:.4f} mol {comp} × {atom_count} = {moles_elem:.4f} mol {elem}",
+            f"Step 3: Atomic mass of {elem} = {mm_elem:.3f} g/mol",
+            f"Step 4: Mass of {elem} = {moles_elem:.4f} mol × {mm_elem:.3f} g/mol = {grams_elem:.4f} g",
+            f"Final Answer: {grams_elem:.4f} g {elem}"
+        ]
+        return '\n'.join(steps)
+
+    # Grams of compound to moles of element
+    match_grams_comp_to_mol_elem = re.match(
+        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+([A-Za-z0-9().*]+)\s+to\s+moles?\s+of\s+([A-Za-z][a-z]?)',
+        query, re.IGNORECASE
+    )
+    if match_grams_comp_to_mol_elem:
+        grams_str, comp, elem = match_grams_comp_to_mol_elem.groups()
+        grams_val = float(grams_str)
+        comp = fix_case(comp)
+        elem = elem.capitalize()
+        mm = molar_mass(comp)
+        moles_comp = grams_val / mm
+        counts = parse_formula(comp)
+        if elem not in counts:
+            return f"Error: element '{elem}' not found in compound {comp}."
+        atom_count = counts[elem]
+        moles_elem = moles_comp * atom_count
+        steps = [
+            f"Step 1: Given {grams_val} g of {comp}",
+            f"Step 2: Molar mass of {comp} = {mm:.3f} g/mol",
+            f"Step 3: Moles of {comp} = {grams_val} g ÷ {mm:.3f} g/mol = {moles_comp:.4f} mol",
+            f"Step 4: {comp} has {atom_count} {elem} atom(s) per formula unit, so moles of {elem} = {moles_comp:.4f} × {atom_count} = {moles_elem:.4f} mol",
+            f"Final Answer: {moles_elem:.4f} mol {elem}"
+        ]
+        return '\n'.join(steps)
+
+    # Grams of compound to grams of element
+    match_grams_comp_to_grams_elem = re.match(
+        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+of\s+([A-Za-z][a-z]?)',
+        query, re.IGNORECASE
+    )
+    if match_grams_comp_to_grams_elem:
+        grams_str, comp, elem = match_grams_comp_to_grams_elem.groups()
+        grams_val = float(grams_str)
+        comp = fix_case(comp)
+        elem = elem.capitalize()
+        mm_comp = molar_mass(comp)
+        moles_comp = grams_val / mm_comp
+        counts = parse_formula(comp)
+        if elem not in counts:
+            return f"Error: element '{elem}' not found in compound {comp}."
+        atom_count = counts[elem]
+        moles_elem = moles_comp * atom_count
+        mm_elem = PERIODIC_TABLE[elem]
+        grams_elem = moles_elem * mm_elem
+        steps = [
+            f"Step 1: Given {grams_val} g of {comp}",
+            f"Step 2: Molar mass of {comp} = {mm_comp:.3f} g/mol",
+            f"Step 3: Moles of {comp} = {grams_val} g ÷ {mm_comp:.3f} g/mol = {moles_comp:.4f} mol",
+            f"Step 4: {comp} has {atom_count} {elem} atom(s) per formula unit, so moles of {elem} = {moles_comp:.4f} × {atom_count} = {moles_elem:.4f} mol",
+            f"Step 5: Atomic mass of {elem} = {mm_elem:.3f} g/mol",
+            f"Step 6: Mass of {elem} = {moles_elem:.4f} mol × {mm_elem:.3f} g/mol = {grams_elem:.4f} g",
+            f"Final Answer: {grams_elem:.4f} g {elem}"
+        ]
+        return '\n'.join(steps)
+
+    # Grams of element to formula units of compound
+    match_grams_elem_to_fu_comp = re.match(
+        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+([A-Za-z][a-z]?)\s+to\s+formula units\s+of\s+([A-Za-z0-9().*]+)',
+        query, re.IGNORECASE
+    )
+    if match_grams_elem_to_fu_comp:
+        grams_str, elem, comp = match_grams_elem_to_fu_comp.groups()
+        grams_val = float(grams_str)
+        elem = elem.capitalize()
+        comp = fix_case(comp)
+        mm_elem = PERIODIC_TABLE[elem]
+        moles_elem = grams_val / mm_elem
+        counts = parse_formula(comp)
+        if elem not in counts:
+            return f"Error: element '{elem}' not found in compound {comp}."
+        atom_count = counts[elem]
+        moles_comp = moles_elem / atom_count
+        formula_units = moles_comp * AVOGADRO
+        steps = [
+            f"Step 1: Given {grams_val} g of {elem}",
+            f"Step 2: Atomic mass of {elem} = {mm_elem:.3f} g/mol",
+            f"Step 3: Moles of {elem} = {grams_val} g ÷ {mm_elem:.3f} g/mol = {moles_elem:.4f} mol",
+            f"Step 4: {comp} has {atom_count} {elem} atom(s) per formula unit, so moles of {comp} = {moles_elem:.4f} ÷ {atom_count} = {moles_comp:.4f} mol",
+            f"Step 5: Formula units of {comp} = {moles_comp:.4f} mol × {AVOGADRO:.3e} = {formula_units:.3e}",
+            f"Final Answer: {formula_units:.3e} formula units of {comp}"
+        ]
+        return '\n'.join(steps)
+
+    # Stoichiometry: convert moles of a reactant to grams of a product using balanced equation
+    match_stoich_mass_alt = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+of\s+([A-Za-z0-9().*]+)\s+in\s+(.+)',
+        query, re.IGNORECASE
+    )
+    if match_stoich_mass_alt:
+        moles_str, comp_from, comp_prod, reaction_str = match_stoich_mass_alt.groups()
+        moles_val = float(moles_str)
+        comp_from = fix_case(comp_from)
+        comp_prod = fix_case(comp_prod)
+        reaction = reaction_str.replace(' ', '')
+        # Compute moles of product
+        stoich_steps = stoichiometry_moles(moles_val, comp_from, comp_prod, reaction)
+        if stoich_steps and isinstance(stoich_steps, list) and stoich_steps[0].startswith("Error:"):
+            return '\n'.join(stoich_steps)
+        mol_line = stoich_steps[-1]
+        mol_amount = float(mol_line.split()[3])
+        mm_prod = molar_mass(comp_prod)
+        grams_prod = mol_amount * mm_prod
+        steps = []
+        steps.append(f"Step 1: Compute moles of {comp_prod} from {moles_val:.4f} mol {comp_from}")
+        steps.extend(stoich_steps)
+        steps.append(f"Step 2: Molar mass of {comp_prod} = {mm_prod:.3f} g/mol")
+        steps.append(f"Step 3: Mass of {comp_prod} = {mol_amount:.4f} mol × {mm_prod:.3f} g/mol = {grams_prod:.4f} g")
+        steps.append(f"Final Answer: {grams_prod:.4f} g {comp_prod}")
+        return '\n'.join(steps)
+
+    # Natural language stoichiometry query for mass of product
+    match_nat_stoich_mass = re.match(
+        r'if\s+you\s+react\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+),\s*what\s+mass\s+of\s+([A-Za-z0-9().*]+)\s+will\s+be\s+produced\?\s*equation\s*-\s*(.+)',
+        query, re.IGNORECASE
+    )
+    if match_nat_stoich_mass:
+        moles_str, comp_from, comp_prod, reaction_str = match_nat_stoich_mass.groups()
+        moles_val = float(moles_str)
+        comp_from = fix_case(comp_from)
+        comp_prod = fix_case(comp_prod)
+        reaction = reaction_str.replace(' ', '')
+        # First calculate moles of product using stoichiometry_moles
+        stoich_steps = stoichiometry_moles(moles_val, comp_from, comp_prod, reaction)
+        # If stoichiometry_moles returned an error list, forward that
+        if stoich_steps and isinstance(stoich_steps, list) and stoich_steps[0].startswith("Error:"):
+            return '\n'.join(stoich_steps)
+        # Extract the mol amount from the final line of stoich_steps
+        mol_line = stoich_steps[-1]
+        # mol_line is like "Final Answer: X.XXXX mol PRODUCT"
+        mol_amount = float(mol_line.split()[3])
+        # Convert moles of product to grams
+        mm_prod = molar_mass(comp_prod)
+        grams_prod = mol_amount * mm_prod
+        steps = []
+        steps.append(f"Step 1: Perform stoichiometry to find moles of {comp_prod}")
+        steps.extend(stoich_steps)
+        steps.append(f"Step 2: Molar mass of {comp_prod} = {mm_prod:.3f} g/mol")
+        steps.append(f"Step 3: Mass of {comp_prod} = {mol_amount:.4f} mol × {mm_prod:.3f} g/mol = {grams_prod:.4f} g")
+        steps.append(f"Final Answer: {grams_prod:.4f} g {comp_prod}")
+        return '\n'.join(steps)
+
+    # Natural language stoichiometry query
+    match_nat_stoich = re.match(
+        r'if\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+)\s+are\s+reacted,\s*how\s+many\s+(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+)\s+will\s+be\s+produced\?\s*equation\s*-\s*(.+)',
+        query, re.IGNORECASE
+    )
+    if match_nat_stoich:
+        moles_str, comp_from, comp_to, reaction_str = match_nat_stoich.groups()
+        moles_val = float(moles_str)
+        comp_from = fix_case(comp_from)
+        comp_to = fix_case(comp_to)
+        reaction = reaction_str.replace(' ', '')
+        return '\n'.join(stoichiometry_moles(moles_val, comp_from, comp_to, reaction))
 
     # Stoichiometric mol-to-mol conversion
     match_stoich = re.match(
