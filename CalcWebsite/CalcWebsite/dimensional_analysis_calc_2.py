@@ -2052,39 +2052,71 @@ def dimensional_analysis(query):
     if m3:
         actual, theoretical = map(float, m3.groups())
         return '\n'.join(percent_yield(actual, theoretical))
-
-    # Handle density: volume → mass
+    # Handle density: volume (mL or L) → mass (g)
     match_density_vol_to_mass = re.match(
-        r'convert\s+([\deE.+-]+)\s*(?:mL|ml|milliliters?)\s+of\s+[A-Za-z0-9().*]+\s+to\s+grams\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
+        r'convert\s+([\deE.+-]+)\s*(?P<vol_unit>mL|ml|milliliters?|L|l|liters?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
         query, re.IGNORECASE
     )
     if match_density_vol_to_mass:
-        volume_str, density_str = match_density_vol_to_mass.groups()
-        volume = float(volume_str)
+        vol_str, vol_unit, comp, density_str = match_density_vol_to_mass.groups()
+        volume = float(vol_str)
         density = float(density_str)
-        return '\n'.join(volume_to_grams(volume, density))
+        # Convert to mL if user gave liters
+        if vol_unit.lower().startswith('l'):
+            volume_ml = volume * 1000
+        else:
+            volume_ml = volume
+        # volume_to_grams expects volume in mL
+        return '\n'.join(volume_to_grams(volume_ml, density))
 
-    # Handle density: mass → volume
+    # Handle density: mass (g) → volume (mL or L)
     match_density_mass_to_vol = re.match(
-        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+[A-Za-z0-9().*]+\s+to\s+volume\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
+        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+([A-Za-z0-9().*]+)\s+to\s*(?P<vol_unit>mL|ml|milliliters?|L|l|liters?)\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
         query, re.IGNORECASE
     )
     if match_density_mass_to_vol:
-        grams_str, density_str = match_density_mass_to_vol.groups()
+        grams_str, comp, vol_unit, density_str = match_density_mass_to_vol.groups()
         grams = float(grams_str)
         density = float(density_str)
-        return '\n'.join(grams_to_volume(grams, density))
-
-    # Mass → volume in liters using density
-    match_mass_to_L = re.match(
-        r'convert\s+([\deE.+-]+)\s*grams?\s+of\s+[A-Za-z0-9().*]+\s+to\s+liters?\s+using\s+density\s+([\deE.+-]+)\s*g/mL',
+        # First compute volume in mL
+        volume_ml = grams / density
+        if vol_unit.lower().startswith('l'):
+            # convert to liters
+            volume_L = volume_ml / 1000
+            steps = [
+                f"Step 1: Given {grams:.4f} g of {comp} and density = {density:.3f} g/mL",
+                f"Step 2: Volume in mL = {grams:.4f} ÷ {density:.3f} = {volume_ml:.4f} mL",
+                f"Step 3: Convert to L: {volume_ml:.4f} mL ÷ 1000 = {volume_L:.4f} L",
+                f"Final Answer: {volume_L:.4f} L"
+            ]
+            return '\n'.join(steps)
+        else:
+            # return result in mL directly
+            steps = [
+                f"Step 1: Given {grams:.4f} g of {comp} and density = {density:.3f} g/mL",
+                f"Step 2: Volume in mL = {grams:.4f} ÷ {density:.3f} = {volume_ml:.4f} mL",
+                f"Final Answer: {volume_ml:.4f} mL"
+            ]
+            return '\n'.join(steps)
+        
+    # Mass → Volume (mL or L) using density
+    match_mass_to_volume = re.match(
+        r'convert\s+([\deE.+-]+)\s*(?:g|grams?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s*'
+        r'(?P<vol_unit>mL|ml|milliliters?|L|l|liters?)\s+using\s+density\s+'
+        r'([\deE.+-]+)\s*g/mL$',
         query, re.IGNORECASE
     )
-    if match_mass_to_L:
-        grams_str, density_str = match_mass_to_L.groups()
+    if match_mass_to_volume:
+        grams_str, comp, vol_unit, density_str = match_mass_to_volume.groups()
         grams = float(grams_str)
         density = float(density_str)
-        return '\n'.join(mass_to_liters(grams, density))
+        comp = fix_case(comp)  # normalize formula, though not used by mass_to_liters
+        # If user asked for liters, call mass_to_liters(grams, density).
+        # If user asked for mL, call grams_to_volume(grams, density).
+        if vol_unit.lower().startswith('l'):
+            return '\n'.join(mass_to_liters(grams, density))
+        else:
+            return '\n'.join(grams_to_volume(grams, density))
 
     # Acid-base titration volume calculation
     match_titr = re.match(
@@ -2107,14 +2139,16 @@ def dimensional_analysis(query):
 
     # Polyprotic acid titration concentration
     match_titr2 = re.match(
-        r'it takes\s+([\deE.+-]+)\s*(?:mL|L)\s+of\s+([\deE.+-]+)\s*M\s+([A-Za-z0-9().*]+)\s+solution\s+to\s+completely neutralize\s+([\deE.+-]+)\s*(?:mL|L)\s+of\s+([A-Za-z0-9().*]+)\s+solution',
+        r'it takes\s+([\deE.+-]+)\s*(mL|ml|L|l)\s+of\s+([\deE.+-]+)\s*M\s+([A-Za-z0-9().*]+)\s+solution\s+to\s+completely neutralize\s+([\deE.+-]+)\s*(mL|ml|L|l)\s+of\s+([\deE.+-]+)\s*M\s+([A-Za-z0-9().*]+)\s+solution',
         query, re.IGNORECASE
     )
     if match_titr2:
-        Vt_str, Mt_str, titrant_comp, Va_str, analyte_comp = match_titr2.groups()
-        Vt = float(Vt_str) / 1000
+        Vt_str, Vt_unit, Mt_str, titrant_comp, Va_str, Va_unit, Ma_str, analyte_comp = match_titr2.groups()
+        # Convert volumes from mL → L if needed
+        Vt = float(Vt_str) / (1000 if Vt_unit.lower() in ('ml','m') else 1)
+        Va = float(Va_str) / (1000 if Va_unit.lower() in ('ml','m') else 1)
         Mt = float(Mt_str)
-        Va = float(Va_str) / 1000
+        Ma = float(Ma_str)  # analyte’s molarity (parsed for completeness)
         titrant_comp = fix_case(titrant_comp)
         analyte_comp = fix_case(analyte_comp)
         return '\n'.join(titration_concentration(Vt, Mt, titrant_comp, Va, analyte_comp))
@@ -2245,7 +2279,7 @@ def dimensional_analysis(query):
 
     # Stoichiometry: convert moles of a reactant to grams of a product using balanced equation
     match_stoich_mass_alt = re.match(
-        r'convert\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+of\s+([A-Za-z0-9().*]+)\s+in\s+(.+)',
+        r'convert\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+)\s+to\s+grams?\s+of\s+([A-Za-z0-9().*]+)\s+in\s+([A-Za-z0-9+->]+)$',
         query, re.IGNORECASE
     )
     if match_stoich_mass_alt:
@@ -2254,12 +2288,13 @@ def dimensional_analysis(query):
         comp_from = fix_case(comp_from)
         comp_prod = fix_case(comp_prod)
         reaction = reaction_str.replace(' ', '')
-        # Compute moles of product
+        # 1) Get stoichiometric moles of product
         stoich_steps = stoichiometry_moles(moles_val, comp_from, comp_prod, reaction)
-        if stoich_steps and isinstance(stoich_steps, list) and stoich_steps[0].startswith("Error:"):
+        if stoich_steps and stoich_steps[0].startswith("Error:"):
             return '\n'.join(stoich_steps)
         mol_line = stoich_steps[-1]
-        mol_amount = float(mol_line.split()[3])
+        mol_amount = float(mol_line.split()[2])
+        # 2) Convert those moles → grams for product
         mm_prod = molar_mass(comp_prod)
         grams_prod = mol_amount * mm_prod
         steps = []
@@ -2270,35 +2305,35 @@ def dimensional_analysis(query):
         steps.append(f"Final Answer: {grams_prod:.4f} g {comp_prod}")
         return '\n'.join(steps)
 
-    # Natural language stoichiometry query for mass of product
+        # Natural‐language stoichiometry: moles of reactant → mass of product
     match_nat_stoich_mass = re.match(
-        r'if\s+you\s+react\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+),\s*what\s+mass\s+of\s+([A-Za-z0-9().*]+)\s+will\s+be\s+produced\?\s*equation\s*-\s*(.+)',
+        r'if\s+you\s+react\s+([\deE.+-]+)\s*(?:mol|moles?)\s+of\s+([A-Za-z0-9().*]+),\s*'
+        r'what\s+mass\s+of\s+([A-Za-z0-9().*]+)\s+will\s+be\s+produced\?\s*'
+        r'Equation\s*-\s*([A-Za-z0-9+->]+)$',
         query, re.IGNORECASE
     )
     if match_nat_stoich_mass:
-        moles_str, comp_from, comp_prod, reaction_str = match_nat_stoich_mass.groups()
+        moles_str, from_comp, prod_comp, reaction_str = match_nat_stoich_mass.groups()
         moles_val = float(moles_str)
-        comp_from = fix_case(comp_from)
-        comp_prod = fix_case(comp_prod)
+        from_comp = fix_case(from_comp)
+        prod_comp = fix_case(prod_comp)
         reaction = reaction_str.replace(' ', '')
-        # First calculate moles of product using stoichiometry_moles
-        stoich_steps = stoichiometry_moles(moles_val, comp_from, comp_prod, reaction)
-        # If stoichiometry_moles returned an error list, forward that
-        if stoich_steps and isinstance(stoich_steps, list) and stoich_steps[0].startswith("Error:"):
+        # 1) Compute moles of product from given reactant amount
+        stoich_steps = stoichiometry_moles(moles_val, from_comp, prod_comp, reaction)
+        if stoich_steps and stoich_steps[0].startswith("Error:"):
             return '\n'.join(stoich_steps)
-        # Extract the mol amount from the final line of stoich_steps
-        mol_line = stoich_steps[-1]
-        # mol_line is like "Final Answer: X.XXXX mol PRODUCT"
-        mol_amount = float(mol_line.split()[3])
-        # Convert moles of product to grams
-        mm_prod = molar_mass(comp_prod)
-        grams_prod = mol_amount * mm_prod
+        # Last line is “Final Answer: X.XXXX mol PROD”
+        last_line = stoich_steps[-1]
+        prod_moles = float(last_line.split()[2])
+        # 2) Convert product moles → grams
+        mm_prod = molar_mass(prod_comp)
+        grams_prod = prod_moles * mm_prod
         steps = []
-        steps.append(f"Step 1: Perform stoichiometry to find moles of {comp_prod}")
+        steps.append(f"Step 1: Perform stoichiometry to find moles of {prod_comp}")
         steps.extend(stoich_steps)
-        steps.append(f"Step 2: Molar mass of {comp_prod} = {mm_prod:.3f} g/mol")
-        steps.append(f"Step 3: Mass of {comp_prod} = {mol_amount:.4f} mol × {mm_prod:.3f} g/mol = {grams_prod:.4f} g")
-        steps.append(f"Final Answer: {grams_prod:.4f} g {comp_prod}")
+        steps.append(f"Step 2: Molar mass of {prod_comp} = {mm_prod:.3f} g/mol")
+        steps.append(f"Step 3: Mass of {prod_comp} = {prod_moles:.4f} mol × {mm_prod:.3f} g/mol = {grams_prod:.4f} g")
+        steps.append(f"Final Answer: {grams_prod:.4f} g {prod_comp}")
         return '\n'.join(steps)
 
     # Natural language stoichiometry query
@@ -2326,21 +2361,22 @@ def dimensional_analysis(query):
         comp_to = fix_case(comp_to)
         return '\n'.join(stoichiometry_moles(val, comp_from, comp_to, reaction))
 
-    # Limiting reagent and theoretical yield
+    # Limiting reagent & theoretical yield
     match_lr = re.match(
-        r'limiting reagent and theoretical yield from\s+([\deE.+-]+)\s*mol\s+of\s+([A-Za-z0-9().*]+)\s+and\s+([\deE.+-]+)\s*mol\s+of\s+([A-Za-z0-9().*]+)\s+in reaction\s+(.+)',
+        r'limiting reagent and theoretical yield from\s+([\deE.+-]+)\s*mol\s+of\s+'
+        r'([A-Za-z0-9().*]+)\s+and\s+([\deE.+-]+)\s*mol\s+of\s+'
+        r'([A-Za-z0-9().*]+)\s+in\s+reaction\s+([A-Za-z0-9+->]+)$',
         query, re.IGNORECASE
     )
     if match_lr:
-        val1, comp1, val2, comp2, reaction_str = match_lr.groups()
+        val1_str, comp1, val2_str, comp2, reaction_str = match_lr.groups()
+        val1 = float(val1_str)
+        val2 = float(val2_str)
         comp1 = fix_case(comp1)
         comp2 = fix_case(comp2)
-        return '\n'.join(
-            limiting_reagent_and_theoretical_yield(
-                float(val1), comp1, float(val2), comp2, reaction_str
-            )
-        )
-
+        reaction = reaction_str.replace(' ', '')
+        return '\n'.join(limiting_reagent_and_theoretical_yield(val1, comp1, val2, comp2, reaction))
+    
     return "Sorry, I couldn't understand that conversion request."
 
 # Example usage
