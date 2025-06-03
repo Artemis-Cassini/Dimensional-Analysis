@@ -165,8 +165,8 @@ main {
   nav.main-nav a {
     display: block;
     text-align: center;
-    width: 95%;           /* slightly less than full width */
-    max-width: 400px;
+    width: 90%;           /* slightly less than full width */
+    max-width: 350px;
     font-size: 0.75rem;
     padding: 0.5rem 0;     /* add vertical padding to links */
     margin: 0 auto;       /* center within container */
