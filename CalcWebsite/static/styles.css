@@ -157,7 +157,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.25rem;         /* make links closer */
+    gap: 0.5rem;         /* make links closer */
     padding: 0.15rem 0;   /* reduce vertical padding further */
     width: 100%;
   }
