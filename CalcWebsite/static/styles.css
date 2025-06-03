@@ -152,21 +152,23 @@ main {
     padding: 0.5rem;
   }
 
-  /* Center navigation links if they exist */
+  /* Center navigation links and compress width */
   nav.main-nav {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.75rem;
-    padding: 0.5rem 0;
+    gap: 0.5rem;          /* reduce gap between links */
+    padding: 0.25rem 0;   /* reduce padding */
     width: 100%;
   }
 
   nav.main-nav a {
     display: block;
     text-align: center;
-    width: 100%;
-    max-width: 3500px;
-    font-size: 0.70rem;
+    width: 95%;           /* slightly less than full width */
+    max-width: 400px;
+    font-size: 0.75rem;
+    padding: 0.5rem 0;     /* add vertical padding to links */
+    margin: 0 auto;       /* center within container */
   }
 }
