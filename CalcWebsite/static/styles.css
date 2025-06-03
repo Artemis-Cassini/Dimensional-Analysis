@@ -152,23 +152,24 @@ main {
     padding: 0.5rem;
   }
 
-  /* Center navigation links and compress width */
+  /* Center navigation links in a horizontal row, allow wrapping if needed */
   nav.main-nav {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;         /* make links closer */
-    padding: 0.15rem 0;   /* reduce vertical padding further */
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
     width: 100%;
+    overflow-x: auto; /* allow scrolling if items exceed width */
   }
 
   nav.main-nav a {
-    display: block;
+    flex: 0 1 auto;   /* allow links to shrink if necessary */
     text-align: center;
-    width: 95%;           /* slightly less than full width */
-    max-width: 400px;
     font-size: 0.75rem;
-    padding: 0.25rem 0;    /* reduce vertical padding */
-    margin: 0 auto;       /* center within container */
+    padding: 0.25rem 0.5rem;
+    min-width: 80px;  /* ensure a minimum button width */
+    white-space: nowrap; /* prevent link text wrapping */
   }
 }
