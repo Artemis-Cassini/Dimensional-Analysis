@@ -75,3 +75,58 @@ main {
   margin: 0.25rem 0;
   font-family: monospace;
 }
+
+/* At the very bottom of styles.css: */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem;
+  }
+  header h1 {
+    font-size: 1.75rem;
+    text-align: center;
+    margin: 1rem 0;
+  }
+  nav.main-nav ul {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  nav.main-nav a {
+    font-size: 0.9rem;
+  }
+  .calculator-container {
+    padding: 1rem;
+    margin: 1rem;
+    width: auto;
+  }
+  #calc-form input {
+    width: 100%;
+    padding: 0.75rem;
+    font-size: 1rem;
+    box-sizing: border-box;
+  }
+  #calc-form button {
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.75rem;
+    font-size: 1rem;
+  }
+  .result-box p {
+    font-size: 0.9rem;
+    padding: 0.75rem;
+  }
+  .info-container {
+    padding: 1rem 0;
+  }
+  .info-box {
+    margin: 0.5rem;
+    max-width: 100%;
+    padding: 1rem;
+  }
+  .info-box h2 {
+    font-size: 1rem;
+  }
+  .info-box p,
+  .info-box ul {
+    font-size: 0.85rem;
+  }
+}
