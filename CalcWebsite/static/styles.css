@@ -130,4 +130,25 @@ main {
   .info-box ul {
     font-size: 0.8rem;
   }
+  /* Reduce header padding */
+  header {
+    padding: 1rem 0;
+  }
+  /* Compress navigation container */
+  nav.main-nav {
+    width: 90%;
+    margin: 0.5rem auto;
+    padding: 0.5rem 0;
+  }
+  nav.main-nav ul {
+    gap: 0.5rem;
+  }
+  /* Shrink main content padding */
+  main {
+    padding: 1rem;
+  }
+  /* Slightly reduce base font size */
+  body {
+    font-size: 0.9rem;
+  }
 }
