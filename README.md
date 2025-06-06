@@ -18,7 +18,7 @@ A calculator, for dimensional analysis
 
 ## Live Demo
 
-[Website](https://dimensionalanalysis.solutions/)
+[Dimensional Analysis Solutions](https://dimensionalanalysis.solutions/)
 
 Or run it locally:
 
