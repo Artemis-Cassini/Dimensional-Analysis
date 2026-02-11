@@ -1,12 +1,25 @@
 :root {
-  --green-dark: #258F4C;
-  --green-mid: #4FB44F;
-  --green-light: #84BC83;
-  --green-pale: #B1CDB1;
-  --gray-dark: #6B6B6B;
-  --gray-mid: #989898;
-  --gray-light: #DEDEDE;
-  --white: #FFFFFF;
+  /* Purple palette (re-using your existing variable names to avoid refactors) */
+  --green-dark: #4B1D86;   /* deep purple (header/footer, strong accents) */
+  --green-mid:  #7C3AED;   /* vivid purple (buttons, borders) */
+  --green-light:#A78BFA;   /* soft purple (hover, secondary accents) */
+  --green-pale: #EDE9FE;   /* very pale purple (result box background) */
+
+  /* Neutrals (keep these similar to your current vibe) */
+  --gray-dark:  #2B2B2B;
+  --gray-mid:   #6B6B6B;
+  --gray-light: #F3F4F6;   /* slightly cooler light gray so purple pops */
+  --white:      #FFFFFF;
+}
+/* Make all elements use border-box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Prevent horizontal scrolling */
+html, body {
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
@@ -50,17 +63,15 @@ main {
   border-radius: 0.5rem;
 }
 
-#calc-form button {
-  padding: 0.5rem 1rem;
-  background: var(--green-mid);
-  color: var(--white);
-  border: none;
-  border-radius: 0.5rem;
-  cursor: pointer;
+
+#calc-form button:focus-visible,
+#calc-form input:focus-visible {
+  outline: 3px solid var(--green-light);
+  outline-offset: 2px;
 }
 
 #calc-form button:hover {
-  background: var(--green-light);
+  background: var(--green-dark);
 }
 
 .result-box {
@@ -74,4 +85,91 @@ main {
 .result-box p {
   margin: 0.25rem 0;
   font-family: monospace;
+}
+
+/* Mobile-first vertical layout */
+@media (max-width: 600px) {
+  /* Adjust body and container padding */
+  body {
+    padding: 0.25rem;
+    font-size: 0.9rem;
+  }
+
+  header, footer {
+    padding: 1rem 0;
+  }
+
+  /* Center and narrow the main content */
+  main {
+    padding: 1rem;
+  }
+
+  .calculator-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 0.5rem auto;
+    padding: 0.75rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  /* Stack input and button vertically */
+  #calc-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  #calc-form input {
+    width: 100%;
+    padding: 0.4rem;
+    font-size: 1rem;
+  }
+
+  #calc-form button {
+    width: 100%;
+    padding: 0.4rem;
+    font-size: 1rem;
+  }
+
+  /* Adjust result box */
+  .result-box {
+    max-height: none;
+    margin-top: 0.25rem;
+  }
+
+  /* Ensure info boxes are centered and full width */
+  .info-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0.25rem 0;
+  }
+
+  .info-box {
+    width: 100%;
+    max-width: 400px;
+    margin: 0.25rem 0;
+    padding: 0.5rem;
+  }
+
+  /* Center navigation links in a horizontal row, allow wrapping if needed */
+  nav.main-nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 0.5rem 0;
+    width: 100%;
+    overflow-x: auto; /* allow scrolling if items exceed width */
+  }
+
+  nav.main-nav a {
+    flex: 0 1 auto;   /* allow links to shrink if necessary */
+    text-align: center;
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    min-width: 80px;  /* ensure a minimum button width */
+    white-space: nowrap; /* prevent link text wrapping */
+  }
 }
