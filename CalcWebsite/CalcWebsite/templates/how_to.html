@@ -16,41 +16,116 @@
       margin: 0;
       padding: 0;
     }
-    header h1 {
-      font-size: 2.5rem;
-      letter-spacing: 1px;
+    header {
+      background: linear-gradient(135deg, var(--green-dark), var(--green-mid));
+      color: var(--white);
+      padding: 1rem 1.5rem;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+    }
+    .header-inner {
+      width: 100%;
       margin: 0;
-      padding: 1.5rem 0;
-      text-align: center;
-      background-color: var(--green-dark);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .brand-block {
+      display: flex;
+      flex-direction: column;
+      gap: 0.2rem;
+      flex: 1;
+    }
+    .brand-name {
+      margin: 0;
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
       color: var(--white);
     }
-    nav.main-nav {
-      position: sticky;
-      top: 0;
-      background: rgba(255,255,255,0.9);
-      backdrop-filter: blur(5px);
-      width: 100%;
-      z-index: 10;
-      padding: 0.75rem 0;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    }
-    nav.main-nav ul {
-      list-style: none;
-      display: flex;
-      justify-content: center;
-      gap: 2rem;
+    .brand-tagline {
       margin: 0;
-      padding: 0;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.82);
     }
-    nav.main-nav a {
-      text-decoration: none;
+    .menu-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      padding: 0.75rem 1rem;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: var(--white);
+      font-size: 0.95rem;
       font-weight: 600;
-      color: var(--green-dark);
-      font-size: 1rem;
+      cursor: pointer;
+      backdrop-filter: blur(6px);
+      transition: transform 0.18s ease, background 0.18s ease;
     }
-    nav.main-nav a:hover {
-      color: var(--green-mid);
+    .menu-button:hover {
+      background: rgba(255,255,255,0.20);
+      transform: translateY(-1px);
+    }
+    .menu-button:focus-visible {
+      outline: 3px solid rgba(255,255,255,0.35);
+      outline-offset: 2px;
+    }
+    .menu-icon {
+      font-size: 1.1rem;
+      line-height: 1;
+    }
+    .sidebar-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.2s;
+      z-index: 20;
+    }
+    .sidebar-overlay.open {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .sidebar-panel {
+      position: fixed;
+      right: 0;
+      top: 0;
+      width: min(320px, 85vw);
+      height: 100vh;
+      background: rgba(255,255,255,0.95);
+      transform: translateX(100%);
+      transition: transform 0.25s;
+      z-index: 30;
+      display: flex;
+      flex-direction: column;
+    }
+    .sidebar-panel.open {
+      transform: translateX(0);
+    }
+    .sidebar-top {
+      padding: 1rem;
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(0,0,0,0.1);
+    }
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      gap: 0.5rem;
+    }
+    .sidebar-link {
+      padding: 0.8rem 1rem;
+      border-radius: 0.8rem;
+      text-decoration: none;
+      color: var(--green-dark);
+      background: rgba(237,233,254,0.4);
+    }
+    .sidebar-link.active {
+      background: rgba(124,58,237,0.2);
     }
     main {
       display: flex;
@@ -65,9 +140,50 @@
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       width: 100%;
       max-width: 600px;
-      max-height: 300px;
-      overflow-y: auto;
       margin: 0 auto;
+    }
+
+    .step-list, .tip-list {
+      list-style: none;
+      padding: 0;
+      margin: 0.5rem 0 0 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .step-card {
+      background: rgba(237, 233, 254, 0.55);
+      border: 1px solid rgba(124, 58, 237, 0.18);
+      border-radius: 0.9rem;
+      padding: 0.9rem 1rem;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.06);
+      line-height: 1.6;
+      color: var(--green-dark);
+    }
+
+    .step-card strong {
+      display: block;
+      margin-bottom: 0.2rem;
+      font-weight: 700;
+    }
+
+    .section-title {
+      margin-top: 1.25rem;
+      margin-bottom: 0.4rem;
+      color: var(--green-dark);
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .final-note {
+      margin-top: 1rem;
+      padding: 0.8rem 1rem;
+      border-radius: 0.75rem;
+      background: rgba(75, 29, 134, 0.08);
+      color: var(--green-dark);
+      font-weight: 600;
+      text-align: center;
     }
     /* Back button styling */
     .back-button {
@@ -96,32 +212,96 @@
 </head>
 <body>
   <header>
-    <h1>How to Use</h1>
+    <div class="header-inner">
+      <div class="brand-block">
+        <h1 class="brand-name">Artemis • DAS Calc</h1>
+        <p class="brand-tagline">Built from curiosity, frustration, and a love of understanding things deeply.</p>
+      </div>
+      <button class="menu-button" id="menu-toggle" type="button" aria-expanded="false" aria-controls="site-sidebar">
+        <span class="menu-icon">☰</span>
+        Menu
+      </button>
+    </div>
   </header>
-  <nav class="main-nav">
-    <ul>
-      <li><a href="/about">About</a></li>
-      <li><a href="/how-to">How to Use</a></li>
-      <li><a href="/">Conversions</a></li>
-      <li><a href="/about-me">About Me</a></li>
-      <li><a href="/contact">Contact</a></li>
-    </ul>
-  </nav>
+  <div class="sidebar-overlay" id="sidebar-overlay"></div>
+  <aside class="sidebar-panel" id="site-sidebar" aria-hidden="true">
+    <div class="sidebar-top">
+      <strong>Navigation</strong>
+      <button id="close-sidebar">✕</button>
+    </div>
+    <nav class="sidebar-nav">
+      <a href="/about" class="sidebar-link">About</a>
+      <a href="/how-to" class="sidebar-link active">How to Use</a>
+      <a href="/" class="sidebar-link">Calculator</a>
+      <a href="/about-me" class="sidebar-link">About Me</a>
+      <a href="/contact" class="sidebar-link">Contact</a>
+    </nav>
+  </aside>
   <main>
     <section class="info-box" id="how-to">
       <h2>How to Use</h2>
-      <ul>
-        <li>First - Enter in your query in English. (Please follow the formatting listed)</li>
-        <li>Second - Click the "Go" button to calculate the conversion</li>
-        <li>Third - Recieve your answer and explanation as to why that's the answer and how to do it!</li>
+
+      <div class="section-title">Steps</div>
+      <ul class="step-list">
+        <li class="step-card">
+          <strong>Step 1</strong>
+          Enter your query using the supported formats. Your query must match the expected format exactly.
+        </li>
+        <li class="step-card">
+          <strong>Step 2</strong>
+          Click the green "Go!" button and wait while the calculator processes your request.
+        </li>
+        <li class="step-card">
+          <strong>Step 3</strong>
+          Review the generated steps and the final answer.
+        </li>
       </ul>
+
+      <div class="section-title">If something doesn’t work</div>
+      <ul class="tip-list">
+        <li class="step-card">Check your spelling</li>
+        <li class="step-card">Make sure the compound or element is correct</li>
+        <li class="step-card">Ensure the conversion is supported (or send feedback on adding the conversion)</li>
+      </ul>
+
+      <div class="final-note">Enjoy the calculator!</div>
     </section>
 
     <!-- ← Back to Conversions -->
     <a href="/" class="back-button">← Back</a>
   </main>
   <footer>
-    <p>&copy; 2025 Artemis Cassini</p>
+    <p>&copy; 2026 Artemis Cassini • Created with Curiosity</p>
   </footer>
+<script>
+const toggle = document.getElementById('menu-toggle');
+const sidebar = document.getElementById('site-sidebar');
+const overlay = document.getElementById('sidebar-overlay');
+const closeBtn = document.getElementById('close-sidebar');
+
+function openMenu() {
+  sidebar.classList.add('open');
+  overlay.classList.add('open');
+  sidebar.setAttribute('aria-hidden', 'false');
+  toggle.setAttribute('aria-expanded', 'true');
+}
+
+function closeMenu() {
+  sidebar.classList.remove('open');
+  overlay.classList.remove('open');
+  sidebar.setAttribute('aria-hidden', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+}
+
+toggle.onclick = openMenu;
+closeBtn.onclick = closeMenu;
+overlay.onclick = closeMenu;
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeMenu();
+  }
+});
+</script>
 </body>
 </html>
