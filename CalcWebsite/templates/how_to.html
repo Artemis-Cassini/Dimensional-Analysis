@@ -79,11 +79,11 @@
     .sidebar-overlay {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,0.35);
+      background: rgba(16, 12, 31, 0.38);
       opacity: 0;
       pointer-events: none;
-      transition: opacity 0.2s;
-      z-index: 20;
+      transition: opacity 0.22s ease;
+      z-index: 25;
     }
     .sidebar-overlay.open {
       opacity: 1;
@@ -91,41 +91,86 @@
     }
     .sidebar-panel {
       position: fixed;
-      right: 0;
       top: 0;
-      width: min(320px, 85vw);
+      right: 0;
+      width: min(340px, 88vw);
       height: 100vh;
-      background: rgba(255,255,255,0.95);
+      background: rgba(255,255,255,0.96);
+      backdrop-filter: blur(14px);
+      box-shadow: -12px 0 35px rgba(0,0,0,0.14);
       transform: translateX(100%);
-      transition: transform 0.25s;
+      transition: transform 0.24s ease;
       z-index: 30;
       display: flex;
       flex-direction: column;
+      border-left: 1px solid rgba(124, 58, 237, 0.10);
     }
     .sidebar-panel.open {
       transform: translateX(0);
     }
     .sidebar-top {
-      padding: 1rem;
       display: flex;
+      align-items: flex-start;
       justify-content: space-between;
-      border-bottom: 1px solid rgba(0,0,0,0.1);
+      gap: 1rem;
+      padding: 1.25rem 1.25rem 1rem;
+      border-bottom: 1px solid rgba(124, 58, 237, 0.10);
+    }
+    .sidebar-title {
+      margin: 0;
+      font-size: 1.15rem;
+      color: var(--green-dark);
+    }
+
+    .sidebar-subtitle {
+      margin: 0.3rem 0 0 0;
+      font-size: 0.92rem;
+      line-height: 1.5;
+      color: var(--gray-dark);
+    }
+
+    .sidebar-close {
+      border: none;
+      background: rgba(237, 233, 254, 0.75);
+      color: var(--green-dark);
+      border-radius: 999px;
+      width: 2.3rem;
+      height: 2.3rem;
+      font-size: 1.1rem;
+      cursor: pointer;
+      flex-shrink: 0;
     }
     .sidebar-nav {
       display: flex;
       flex-direction: column;
-      padding: 1rem;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      padding: 1rem 1.25rem 1.25rem;
     }
     .sidebar-link {
-      padding: 0.8rem 1rem;
-      border-radius: 0.8rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.95rem 1rem;
+      border-radius: 1rem;
       text-decoration: none;
+      font-weight: 600;
       color: var(--green-dark);
-      background: rgba(237,233,254,0.4);
+      background: rgba(237, 233, 254, 0.35);
+      transition: transform 0.18s ease, background 0.18s ease, color 0.18s ease;
+    }
+    .sidebar-link:hover {
+      transform: translateX(-2px);
+      background: rgba(237, 233, 254, 0.75);
+      color: var(--green-mid);
     }
     .sidebar-link.active {
-      background: rgba(124,58,237,0.2);
+      background: linear-gradient(135deg, rgba(75, 29, 134, 0.12), rgba(167, 139, 250, 0.22));
+      box-shadow: inset 0 0 0 1px rgba(124, 58, 237, 0.14);
+    }
+    .sidebar-link span {
+      font-size: 0.92rem;
+      color: var(--gray-dark);
+      font-weight: 500;
     }
     main {
       display: flex;
@@ -226,12 +271,15 @@
   <div class="sidebar-overlay" id="sidebar-overlay"></div>
   <aside class="sidebar-panel" id="site-sidebar" aria-hidden="true">
     <div class="sidebar-top">
-      <strong>Navigation</strong>
-      <button id="close-sidebar">✕</button>
+      <div>
+        <h2 class="sidebar-title">Navigate DAS Calc</h2>
+        <p class="sidebar-subtitle">Explore the site without crowding the page.</p>
+      </div>
+      <button class="sidebar-close" id="close-sidebar" type="button" aria-label="Close menu">✕</button>
     </div>
     <nav class="sidebar-nav" aria-label="Sidebar navigation">
-      <a href="/about" class="sidebar-link active">About <span>Project overview</span></a>
-      <a href="/how-to" class="sidebar-link">How to Use <span>Learn the calculator</span></a>
+      <a href="/about" class="sidebar-link">About <span>Project overview</span></a>
+      <a href="/how-to" class="sidebar-link active">How to Use <span>Learn the calculator</span></a>
       <a href="/" class="sidebar-link">Calculator <span>Main tool</span></a>
       <a href="/about-me" class="sidebar-link">About Me <span>Creator page</span></a>
       <a href="/contact" class="sidebar-link">Contact <span>Reach out</span></a>
